@@ -1,0 +1,22 @@
+[package]
+name = "godaddy-rust"
+version = "1.0.0"
+edition = "2021"
+description = "Community GoDaddy SDK for Rust"
+license = "MIT"
+repository = "https://github.com/community-sdks/godaddy-rust"
+
+[lib]
+name = "godaddy_rust"
+path = "src/lib.rs"
+
+[dependencies]
+async-trait = "0.1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
+url = "2"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
