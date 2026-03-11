@@ -19,9 +19,15 @@ Request code:
 ```rust
 use godaddy_rust::dto::aftermarket::request::GetListingsRequest;
 
-let request = GetListingsRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetListingsRequest {
+    customer_id: "123456789".into(),
+    domains: Some(vec!["example.com"].into()),
+    listing_status: Some("example.com".into()),
+    transfer_before: Some("example.com".into()),
+    transfer_after: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+};
 let response = client.aftermarket().get_listings(request).await?;
 ```
 
@@ -55,9 +61,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::aftermarket::request::DeleteListingsRequest;
 
-let request = DeleteListingsRequest::new(
-    // Fill endpoint fields here
-);
+let request = DeleteListingsRequest {
+    domains: vec!["example.com"].into(),
+};
 let response = client.aftermarket().delete_listings(request).await?;
 ```
 
@@ -78,9 +84,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::aftermarket::request::AddExpiryListingsRequest;
 
-let request = AddExpiryListingsRequest::new(
-    // Fill endpoint fields here
-);
+let request = AddExpiryListingsRequest {
+    expiry_listings: "example.com".into(),
+};
 let response = client.aftermarket().add_expiry_listings(request).await?;
 ```
 
@@ -95,3 +101,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for aftermarket endpoints.
+
+
+
+

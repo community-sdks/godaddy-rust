@@ -42,12 +42,13 @@ Returns: `CreateResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::CreateRequest;
+use godaddy_rust::dto::certificates::request::CertificateCreateRequest;
 
-let request = CreateRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().create(request).await?;
+let request = CertificateCreateRequest {
+    certificate_create: "example.com".into(),
+    x_market_id: Some("header-value".into()),
+};
+let response = client.certificates().certificate_create(request).await?;
 ```
 
 Response JSON example:
@@ -66,12 +67,13 @@ Returns: `ValidateResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ValidateRequest;
+use godaddy_rust::dto::certificates::request::CertificateValidateRequest;
 
-let request = ValidateRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().validate(request).await?;
+let request = CertificateValidateRequest {
+    certificate_create: "example.com".into(),
+    x_market_id: Some("header-value".into()),
+};
+let response = client.certificates().certificate_validate(request).await?;
 ```
 
 Response JSON example:
@@ -95,12 +97,12 @@ Returns: `GetResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetRequest;
+use godaddy_rust::dto::certificates::request::CertificateGetRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get(request).await?;
+let request = CertificateGetRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_get(request).await?;
 ```
 
 Response JSON example:
@@ -119,12 +121,12 @@ Returns: `ListActionsResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ListActionsRequest;
+use godaddy_rust::dto::certificates::request::CertificateActionRetrieveRequest;
 
-let request = ListActionsRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().list_actions(request).await?;
+let request = CertificateActionRetrieveRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_action_retrieve(request).await?;
 ```
 
 Response JSON example:
@@ -145,12 +147,13 @@ Returns: `ResendEmailResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ResendEmailRequest;
+use godaddy_rust::dto::certificates::request::CertificateResendEmailRequest;
 
-let request = ResendEmailRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().resend_email(request).await?;
+let request = CertificateResendEmailRequest {
+    certificate_id: "123456789".into(),
+    email_id: "123456789".into(),
+};
+let response = client.certificates().certificate_resend_email(request).await?;
 ```
 
 Response JSON example:
@@ -169,12 +172,13 @@ Returns: `AddAlternateEmailAddressResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::AddAlternateEmailAddressRequest;
+use godaddy_rust::dto::certificates::request::CertificateAlternateEmailAddressRequest;
 
-let request = AddAlternateEmailAddressRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().add_alternate_email_address(request).await?;
+let request = CertificateAlternateEmailAddressRequest {
+    certificate_id: "123456789".into(),
+    email_address: "example.com".into(),
+};
+let response = client.certificates().certificate_alternate_email_address(request).await?;
 ```
 
 Response JSON example:
@@ -193,12 +197,14 @@ Returns: `ResendEmailToAddressResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ResendEmailToAddressRequest;
+use godaddy_rust::dto::certificates::request::CertificateResendEmailAddressRequest;
 
-let request = ResendEmailToAddressRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().resend_email_to_address(request).await?;
+let request = CertificateResendEmailAddressRequest {
+    certificate_id: "123456789".into(),
+    email_id: "123456789".into(),
+    email_address: "example.com".into(),
+};
+let response = client.certificates().certificate_resend_email_address(request).await?;
 ```
 
 Response JSON example:
@@ -217,12 +223,12 @@ Returns: `GetEmailHistoryResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetEmailHistoryRequest;
+use godaddy_rust::dto::certificates::request::CertificateEmailHistoryRequest;
 
-let request = GetEmailHistoryRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_email_history(request).await?;
+let request = CertificateEmailHistoryRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_email_history(request).await?;
 ```
 
 Response JSON example:
@@ -247,12 +253,12 @@ Returns: `DeleteCallbackResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::DeleteCallbackRequest;
+use godaddy_rust::dto::certificates::request::CertificateCallbackDeleteRequest;
 
-let request = DeleteCallbackRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().delete_callback(request).await?;
+let request = CertificateCallbackDeleteRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_callback_delete(request).await?;
 ```
 
 Response JSON example:
@@ -271,12 +277,12 @@ Returns: `GetCallbackResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetCallbackRequest;
+use godaddy_rust::dto::certificates::request::CertificateCallbackGetRequest;
 
-let request = GetCallbackRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_callback(request).await?;
+let request = CertificateCallbackGetRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_callback_get(request).await?;
 ```
 
 Response JSON example:
@@ -295,12 +301,13 @@ Returns: `ReplaceCallbackResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ReplaceCallbackRequest;
+use godaddy_rust::dto::certificates::request::CertificateCallbackReplaceRequest;
 
-let request = ReplaceCallbackRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().replace_callback(request).await?;
+let request = CertificateCallbackReplaceRequest {
+    certificate_id: "123456789".into(),
+    callback_url: "example.com".into(),
+};
+let response = client.certificates().certificate_callback_replace(request).await?;
 ```
 
 Response JSON example:
@@ -319,12 +326,12 @@ Returns: `CancelResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::CancelRequest;
+use godaddy_rust::dto::certificates::request::CertificateCancelRequest;
 
-let request = CancelRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().cancel(request).await?;
+let request = CertificateCancelRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_cancel(request).await?;
 ```
 
 Response JSON example:
@@ -343,12 +350,12 @@ Returns: `DownloadResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::DownloadRequest;
+use godaddy_rust::dto::certificates::request::CertificateDownloadRequest;
 
-let request = DownloadRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().download(request).await?;
+let request = CertificateDownloadRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_download(request).await?;
 ```
 
 Response JSON example:
@@ -368,12 +375,13 @@ Returns: `ReissueResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ReissueRequest;
+use godaddy_rust::dto::certificates::request::CertificateReissueRequest;
 
-let request = ReissueRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().reissue(request).await?;
+let request = CertificateReissueRequest {
+    certificate_id: "123456789".into(),
+    reissue_create: "example.com".into(),
+};
+let response = client.certificates().certificate_reissue(request).await?;
 ```
 
 Response JSON example:
@@ -392,12 +400,13 @@ Returns: `RenewResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::RenewRequest;
+use godaddy_rust::dto::certificates::request::CertificateRenewRequest;
 
-let request = RenewRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().renew(request).await?;
+let request = CertificateRenewRequest {
+    certificate_id: "123456789".into(),
+    renew_create: "example.com".into(),
+};
+let response = client.certificates().certificate_renew(request).await?;
 ```
 
 Response JSON example:
@@ -416,12 +425,13 @@ Returns: `RevokeResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::RevokeRequest;
+use godaddy_rust::dto::certificates::request::CertificateRevokeRequest;
 
-let request = RevokeRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().revoke(request).await?;
+let request = CertificateRevokeRequest {
+    certificate_id: "123456789".into(),
+    certificate_revoke: "example.com".into(),
+};
+let response = client.certificates().certificate_revoke(request).await?;
 ```
 
 Response JSON example:
@@ -440,12 +450,12 @@ Returns: `GetSiteSealResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetSiteSealRequest;
+use godaddy_rust::dto::certificates::request::CertificateGetRequest;
 
-let request = GetSiteSealRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_site_seal(request).await?;
+let request = CertificateGetRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_get(request).await?;
 ```
 
 Response JSON example:
@@ -463,12 +473,12 @@ Returns: `VerifyDomainControlResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::VerifyDomainControlRequest;
+use godaddy_rust::dto::certificates::request::CertificateVerifydomaincontrolRequest;
 
-let request = VerifyDomainControlRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().verify_domain_control(request).await?;
+let request = CertificateVerifydomaincontrolRequest {
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().certificate_verifydomaincontrol(request).await?;
 ```
 
 Response JSON example:
@@ -487,12 +497,13 @@ Returns: `GetByEntitlementResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetByEntitlementRequest;
+use godaddy_rust::dto::certificates::request::CertificateGetEntitlementRequest;
 
-let request = GetByEntitlementRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_by_entitlement(request).await?;
+let request = CertificateGetEntitlementRequest {
+    entitlement_id: "123456789".into(),
+    latest: Some("example.com".into()),
+};
+let response = client.certificates().certificate_get_entitlement(request).await?;
 ```
 
 Response JSON example:
@@ -522,12 +533,13 @@ Returns: `CreateForEntitlementResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::CreateForEntitlementRequest;
+use godaddy_rust::dto::certificates::request::CertificateCreateRequest;
 
-let request = CreateForEntitlementRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().create_for_entitlement(request).await?;
+let request = CertificateCreateRequest {
+    certificate_create: "example.com".into(),
+    x_market_id: Some("header-value".into()),
+};
+let response = client.certificates().certificate_create(request).await?;
 ```
 
 Response JSON example:
@@ -546,12 +558,12 @@ Returns: `DownloadByEntitlementResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::DownloadByEntitlementRequest;
+use godaddy_rust::dto::certificates::request::CertificateDownloadEntitlementRequest;
 
-let request = DownloadByEntitlementRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().download_by_entitlement(request).await?;
+let request = CertificateDownloadEntitlementRequest {
+    entitlement_id: "123456789".into(),
+};
+let response = client.certificates().certificate_download_entitlement(request).await?;
 ```
 
 Response JSON example:
@@ -571,12 +583,14 @@ Returns: `ListCustomerCertificatesResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ListCustomerCertificatesRequest;
+use godaddy_rust::dto::certificates::request::GetCustomerCertificatesByCustomerIdRequest;
 
-let request = ListCustomerCertificatesRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().list_customer_certificates(request).await?;
+let request = GetCustomerCertificatesByCustomerIdRequest {
+    customer_id: "123456789".into(),
+    offset: Some(1_i64.into()),
+    limit: Some(1_i64.into()),
+};
+let response = client.certificates().get_customer_certificates_by_customer_id(request).await?;
 ```
 
 Response JSON example:
@@ -606,12 +620,14 @@ Returns: `GetCustomerCertificateResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetCustomerCertificateRequest;
+use godaddy_rust::dto::certificates::request::GetCustomerCertificatesByCustomerIdRequest;
 
-let request = GetCustomerCertificateRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_customer_certificate(request).await?;
+let request = GetCustomerCertificatesByCustomerIdRequest {
+    customer_id: "123456789".into(),
+    offset: Some(1_i64.into()),
+    limit: Some(1_i64.into()),
+};
+let response = client.certificates().get_customer_certificates_by_customer_id(request).await?;
 ```
 
 Response JSON example:
@@ -630,12 +646,13 @@ Returns: `ListDomainVerificationsResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ListDomainVerificationsRequest;
+use godaddy_rust::dto::certificates::request::GetDomainInformationByCertificateIdRequest;
 
-let request = ListDomainVerificationsRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().list_domain_verifications(request).await?;
+let request = GetDomainInformationByCertificateIdRequest {
+    customer_id: "123456789".into(),
+    certificate_id: "123456789".into(),
+};
+let response = client.certificates().get_domain_information_by_certificate_id(request).await?;
 ```
 
 Response JSON example:
@@ -665,12 +682,14 @@ Returns: `GetDomainVerificationDetailsResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::GetDomainVerificationDetailsRequest;
+use godaddy_rust::dto::certificates::request::GetDomainDetailsByDomainRequest;
 
-let request = GetDomainVerificationDetailsRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().get_domain_verification_details(request).await?;
+let request = GetDomainDetailsByDomainRequest {
+    customer_id: "123456789".into(),
+    certificate_id: "123456789".into(),
+    domain: "example.com".into(),
+};
+let response = client.certificates().get_domain_details_by_domain(request).await?;
 ```
 
 Response JSON example:
@@ -694,9 +713,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::certificates::request::GetAcmeExternalAccountBindingRequest;
 
-let request = GetAcmeExternalAccountBindingRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetAcmeExternalAccountBindingRequest {
+    customer_id: "123456789".into(),
+};
 let response = client.certificates().get_acme_external_account_binding(request).await?;
 ```
 
@@ -716,12 +735,17 @@ Returns: `SearchSubscriptionsByDomainResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::SearchSubscriptionsByDomainRequest;
+use godaddy_rust::dto::certificates::request::RetrieveSslByDomainResellerRequest;
 
-let request = SearchSubscriptionsByDomainRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().search_subscriptions_by_domain(request).await?;
+let request = RetrieveSslByDomainResellerRequest {
+    Some(1_i64.into()),
+    Some(1_i64.into()),
+    domain: Some("example.com".into()),
+    status: Some("example.com".into()),
+    type_: Some("example.com".into()),
+    validation: Some("example.com".into()),
+};
+let response = client.certificates().retrieve_ssl_by_domain_reseller(request).await?;
 ```
 
 Response JSON example:
@@ -751,12 +775,18 @@ Returns: `ListSubscriptionCertificatesResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::certificates::request::ListSubscriptionCertificatesRequest;
+use godaddy_rust::dto::certificates::request::RetrieveSslByDomainSubscriptionResellerRequest;
 
-let request = ListSubscriptionCertificatesRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.certificates().list_subscription_certificates(request).await?;
+let request = RetrieveSslByDomainSubscriptionResellerRequest {
+    "123456789".into(),
+    Some(1_i64.into()),
+    Some(1_i64.into()),
+    Some("example.com".into()),
+    Some("example.com".into()),
+    Some("example.com".into()),
+    Some("example.com".into()),
+};
+let response = client.certificates().retrieve_ssl_by_domain_subscription_reseller(request).await?;
 ```
 
 Response JSON example:
@@ -782,3 +812,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for certificates endpoints.
+
+
+
+

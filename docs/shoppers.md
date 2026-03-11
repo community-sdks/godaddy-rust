@@ -22,9 +22,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::CreateSubaccountRequest;
 
-let request = CreateSubaccountRequest::new(
-    // Fill endpoint fields here
-);
+let request = CreateSubaccountRequest {
+    subaccount: "example.com".into(),
+};
 let response = client.shoppers().create_subaccount(request).await?;
 ```
 
@@ -46,9 +46,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::GetRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetRequest {
+    shopper_id: "123456789".into(),
+    includes: Some(vec!["example.com"].into()),
+};
 let response = client.shoppers().get(request).await?;
 ```
 
@@ -74,9 +75,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::UpdateRequest;
 
-let request = UpdateRequest::new(
-    // Fill endpoint fields here
-);
+let request = UpdateRequest {
+    shopper_id: "123456789".into(),
+    shopper: "example.com".into(),
+};
 let response = client.shoppers().update(request).await?;
 ```
 
@@ -98,9 +100,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::DeleteRequest;
 
-let request = DeleteRequest::new(
-    // Fill endpoint fields here
-);
+let request = DeleteRequest {
+    shopper_id: "123456789".into(),
+    audit_client_ip: "example.com".into(),
+};
 let response = client.shoppers().delete(request).await?;
 ```
 
@@ -121,9 +124,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::GetStatusRequest;
 
-let request = GetStatusRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetStatusRequest {
+    shopper_id: "123456789".into(),
+    audit_client_ip: "example.com".into(),
+};
 let response = client.shoppers().get_status(request).await?;
 ```
 
@@ -144,9 +148,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::shoppers::request::ChangePasswordRequest;
 
-let request = ChangePasswordRequest::new(
-    // Fill endpoint fields here
-);
+let request = ChangePasswordRequest {
+    shopper_id: "123456789".into(),
+    secret: "example.com".into(),
+};
 let response = client.shoppers().change_password(request).await?;
 ```
 
@@ -162,3 +167,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for shoppers endpoints.
+
+
+
+

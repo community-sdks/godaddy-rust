@@ -18,9 +18,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::countries::request::GetCountriesRequest;
 
-let request = GetCountriesRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetCountriesRequest {
+    market_id: "123456789".into(),
+};
 let response = client.countries().get_countries(request).await?;
 ```
 
@@ -43,9 +43,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::countries::request::GetCountryRequest;
 
-let request = GetCountryRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetCountryRequest {
+    country_key: "example.com".into(),
+    market_id: "123456789".into(),
+};
 let response = client.countries().get_country(request).await?;
 ```
 
@@ -67,3 +68,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for countries endpoints.
+
+
+
+

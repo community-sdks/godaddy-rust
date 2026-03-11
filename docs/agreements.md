@@ -17,9 +17,11 @@ Request code:
 ```rust
 use godaddy_rust::dto::agreements::request::GetRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetRequest {
+    keys: vec!["example.com"].into(),
+    x_private_label_id: Some("header-value".into()),
+    x_market_id: Some("header-value".into()),
+};
 let response = client.agreements().get(request).await?;
 ```
 
@@ -36,3 +38,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for agreements endpoints.
+
+
+
+

@@ -27,12 +27,17 @@ Returns: `SearchResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::SearchRequest;
+use godaddy_rust::dto::ans::request::SearchAnsNameRequest;
 
-let request = SearchRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().search(request).await?;
+let request = SearchAnsNameRequest {
+    agent_display_name: Some("example.com".into()),
+    version: Some("example.com".into()),
+    agent_host: Some("example.com".into()),
+    protocol: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+};
+let response = client.ans().search_ans_name(request).await?;
 ```
 
 Response JSON example:
@@ -62,12 +67,12 @@ Returns: `RegisterResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::RegisterRequest;
+use godaddy_rust::dto::ans::request::RegisterAgentRequest;
 
-let request = RegisterRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().register(request).await?;
+let request = RegisterAgentRequest {
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
+let response = client.ans().register_agent(request).await?;
 ```
 
 Response JSON example:
@@ -94,12 +99,12 @@ Returns: `ResolveResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::ResolveRequest;
+use godaddy_rust::dto::ans::request::ResolveAnsNameRequest;
 
-let request = ResolveRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().resolve(request).await?;
+let request = ResolveAnsNameRequest {
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
+let response = client.ans().resolve_ans_name(request).await?;
 ```
 
 Response JSON example:
@@ -126,12 +131,12 @@ Returns: `GetResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::GetRequest;
+use godaddy_rust::dto::ans::request::GetAgentRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().get(request).await?;
+let request = GetAgentRequest {
+    agent_id: "123456789".into(),
+};
+let response = client.ans().get_agent(request).await?;
 ```
 
 Response JSON example:
@@ -158,12 +163,12 @@ Returns: `RevokeResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::RevokeRequest;
+use godaddy_rust::dto::ans::request::ValidateRegistrationRequest;
 
-let request = RevokeRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().revoke(request).await?;
+let request = ValidateRegistrationRequest {
+    "123456789".into(),
+};
+let response = client.ans().validate_registration(request).await?;
 ```
 
 Response JSON example:
@@ -190,12 +195,12 @@ Returns: `VerifyAcmeResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::VerifyAcmeRequest;
+use godaddy_rust::dto::ans::request::VerifyDnsRecordsRequest;
 
-let request = VerifyAcmeRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().verify_acme(request).await?;
+let request = VerifyDnsRecordsRequest {
+    agent_id: "123456789".into(),
+};
+let response = client.ans().verify_dns_records(request).await?;
 ```
 
 Response JSON example:
@@ -222,12 +227,12 @@ Returns: `VerifyDnsResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::VerifyDnsRequest;
+use godaddy_rust::dto::ans::request::VerifyDnsRecordsRequest;
 
-let request = VerifyDnsRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().verify_dns(request).await?;
+let request = VerifyDnsRecordsRequest {
+    agent_id: "123456789".into(),
+};
+let response = client.ans().verify_dns_records(request).await?;
 ```
 
 Response JSON example:
@@ -254,12 +259,12 @@ Returns: `GetIdentityCertificatesResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::GetIdentityCertificatesRequest;
+use godaddy_rust::dto::ans::request::GetAgentIdentityCertificateByAgentIdRequest;
 
-let request = GetIdentityCertificatesRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().get_identity_certificates(request).await?;
+let request = GetAgentIdentityCertificateByAgentIdRequest {
+    agent_id: "123456789".into(),
+};
+let response = client.ans().get_agent_identity_certificate_by_agent_id(request).await?;
 ```
 
 Response JSON example:
@@ -283,12 +288,13 @@ Returns: `SubmitIdentityCsrResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::SubmitIdentityCsrRequest;
+use godaddy_rust::dto::ans::request::SubmitAgentIdentityCsrByAgentIdRequest;
 
-let request = SubmitIdentityCsrRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().submit_identity_csr(request).await?;
+let request = SubmitAgentIdentityCsrByAgentIdRequest {
+    agent_id: "123456789".into(),
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
+let response = client.ans().submit_agent_identity_csr_by_agent_id(request).await?;
 ```
 
 Response JSON example:
@@ -306,12 +312,12 @@ Returns: `GetServerCertificatesResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::GetServerCertificatesRequest;
+use godaddy_rust::dto::ans::request::GetAgentServerCertificateByAgentIdRequest;
 
-let request = GetServerCertificatesRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().get_server_certificates(request).await?;
+let request = GetAgentServerCertificateByAgentIdRequest {
+    agent_id: "123456789".into(),
+};
+let response = client.ans().get_agent_server_certificate_by_agent_id(request).await?;
 ```
 
 Response JSON example:
@@ -335,12 +341,13 @@ Returns: `SubmitServerCsrResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::SubmitServerCsrRequest;
+use godaddy_rust::dto::ans::request::SubmitAgentServerCsrByAgentIdRequest;
 
-let request = SubmitServerCsrRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().submit_server_csr(request).await?;
+let request = SubmitAgentServerCsrByAgentIdRequest {
+    agent_id: "123456789".into(),
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
+let response = client.ans().submit_agent_server_csr_by_agent_id(request).await?;
 ```
 
 Response JSON example:
@@ -358,12 +365,13 @@ Returns: `GetCsrStatusResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::GetCsrStatusRequest;
+use godaddy_rust::dto::ans::request::GetAgentCsrStatusByAgentIdRequest;
 
-let request = GetCsrStatusRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().get_csr_status(request).await?;
+let request = GetAgentCsrStatusByAgentIdRequest {
+    agent_id: "123456789".into(),
+    csr_id: "123456789".into(),
+};
+let response = client.ans().get_agent_csr_status_by_agent_id(request).await?;
 ```
 
 Response JSON example:
@@ -383,12 +391,15 @@ Returns: `EventsResponse`
 Request code:
 
 ```rust
-use godaddy_rust::dto::ans::request::EventsRequest;
+use godaddy_rust::dto::ans::request::GetAgentEventsRequest;
 
-let request = EventsRequest::new(
-    // Fill endpoint fields here
-);
-let response = client.ans().events(request).await?;
+let request = GetAgentEventsRequest {
+    x_request_id: Some("header-value".into()),
+    provider_id: Some("example.com".into()),
+    last_log_id: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+};
+let response = client.ans().get_agent_events(request).await?;
 ```
 
 Response JSON example:
@@ -408,3 +419,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for ans endpoints.
+
+
+
+

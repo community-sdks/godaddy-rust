@@ -18,9 +18,19 @@ Request code:
 ```rust
 use godaddy_rust::dto::orders::request::ListRequest;
 
-let request = ListRequest::new(
-    // Fill endpoint fields here
-);
+let request = ListRequest {
+    x_app_key: "header-value".into(),
+    period_start: Some(1_i64.into()),
+    period_end: Some(1_i64.into()),
+    domain: Some("example.com".into()),
+    product_group_id: Some("example.com".into()),
+    payment_profile_id: Some("example.com".into()),
+    parent_order_id: Some("example.com".into()),
+    offset: Some(1_i64.into()),
+    limit: Some(1_i64.into()),
+    sort: Some("example.com".into()),
+    x_shopper_id: Some("header-value".into()),
+};
 let response = client.orders().list(request).await?;
 ```
 
@@ -51,9 +61,12 @@ Request code:
 ```rust
 use godaddy_rust::dto::orders::request::GetRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetRequest {
+    order_id: "123456789".into(),
+    x_app_key: "header-value".into(),
+    x_shopper_id: Some("header-value".into()),
+    x_market_id: Some("header-value".into()),
+};
 let response = client.orders().get(request).await?;
 ```
 
@@ -81,3 +94,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for orders endpoints.
+
+
+
+

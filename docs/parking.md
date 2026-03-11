@@ -18,9 +18,14 @@ Request code:
 ```rust
 use godaddy_rust::dto::parking::request::GetMetricsRequest;
 
-let request = GetMetricsRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetMetricsRequest {
+    customer_id: "123456789".into(),
+    period_start_ptz: Some(1_i64.into()),
+    period_end_ptz: Some(1_i64.into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+    x_request_id: Some("header-value".into()),
+};
 let response = client.parking().get_metrics(request).await?;
 ```
 
@@ -53,9 +58,17 @@ Request code:
 ```rust
 use godaddy_rust::dto::parking::request::GetMetricsByDomainRequest;
 
-let request = GetMetricsByDomainRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetMetricsByDomainRequest {
+    customer_id: "123456789".into(),
+    start_date: "example.com".into(),
+    end_date: "example.com".into(),
+    domains: Some(vec!["example.com"].into()),
+    domain_like: Some("example.com".into()),
+    portfolio_id: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+    x_request_id: Some("header-value".into()),
+};
 let response = client.parking().get_metrics_by_domain(request).await?;
 ```
 
@@ -84,3 +97,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for parking endpoints.
+
+
+
+

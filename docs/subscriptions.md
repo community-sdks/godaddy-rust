@@ -21,9 +21,16 @@ Request code:
 ```rust
 use godaddy_rust::dto::subscriptions::request::ListRequest;
 
-let request = ListRequest::new(
-    // Fill endpoint fields here
-);
+let request = ListRequest {
+    x_app_key: "header-value".into(),
+    x_shopper_id: Some("header-value".into()),
+    x_market_id: Some("header-value".into()),
+    product_group_keys: Some(vec!["example.com"].into()),
+    includes: Some(vec!["example.com"].into()),
+    offset: Some(1_i64.into()),
+    limit: Some(1_i64.into()),
+    sort: Some("example.com".into()),
+};
 let response = client.subscriptions().list(request).await?;
 ```
 
@@ -54,9 +61,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::subscriptions::request::ProductGroupsRequest;
 
-let request = ProductGroupsRequest::new(
-    // Fill endpoint fields here
-);
+let request = ProductGroupsRequest {
+    x_app_key: "header-value".into(),
+    x_shopper_id: Some("header-value".into()),
+};
 let response = client.subscriptions().product_groups(request).await?;
 ```
 
@@ -82,9 +90,11 @@ Request code:
 ```rust
 use godaddy_rust::dto::subscriptions::request::CancelRequest;
 
-let request = CancelRequest::new(
-    // Fill endpoint fields here
-);
+let request = CancelRequest {
+    subscription_id: "123456789".into(),
+    x_app_key: "header-value".into(),
+    x_shopper_id: Some("header-value".into()),
+};
 let response = client.subscriptions().cancel(request).await?;
 ```
 
@@ -106,9 +116,11 @@ Request code:
 ```rust
 use godaddy_rust::dto::subscriptions::request::GetRequest;
 
-let request = GetRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetRequest {
+    subscription_id: "123456789".into(),
+    x_app_key: "header-value".into(),
+    x_shopper_id: Some("header-value".into()),
+};
 let response = client.subscriptions().get(request).await?;
 ```
 
@@ -132,9 +144,12 @@ Request code:
 ```rust
 use godaddy_rust::dto::subscriptions::request::UpdateRequest;
 
-let request = UpdateRequest::new(
-    // Fill endpoint fields here
-);
+let request = UpdateRequest {
+    subscription_id: "123456789".into(),
+    x_app_key: "header-value".into(),
+    subscription: "example.com".into(),
+    x_shopper_id: Some("header-value".into()),
+};
 let response = client.subscriptions().update(request).await?;
 ```
 
@@ -150,3 +165,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for subscriptions endpoints.
+
+
+
+

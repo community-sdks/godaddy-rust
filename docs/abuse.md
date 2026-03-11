@@ -22,9 +22,16 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::GetTicketsRequest;
 
-let request = GetTicketsRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetTicketsRequest {
+    type_: Some("example.com".into()),
+    closed: Some("example.com".into()),
+    source_domain_or_ip: Some("example.com".into()),
+    target: Some("example.com".into()),
+    created_start: Some("example.com".into()),
+    created_end: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+};
 let response = client.abuse().get_tickets(request).await?;
 ```
 
@@ -52,9 +59,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::CreateTicketRequest;
 
-let request = CreateTicketRequest::new(
-    // Fill endpoint fields here
-);
+let request = CreateTicketRequest {
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
 let response = client.abuse().create_ticket(request).await?;
 ```
 
@@ -75,9 +82,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::GetTicketInfoRequest;
 
-let request = GetTicketInfoRequest::new(
-    // Fill endpoint fields here
-);
+let request = GetTicketInfoRequest {
+    ticket_id: "123456789".into(),
+};
 let response = client.abuse().get_ticket_info(request).await?;
 ```
 
@@ -108,9 +115,16 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::GetTicketsV2Request;
 
-let request = GetTicketsV2Request::new(
-    // Fill endpoint fields here
-);
+let request = GetTicketsV2Request {
+    type_: Some("example.com".into()),
+    closed: Some("example.com".into()),
+    source_domain_or_ip: Some("example.com".into()),
+    target: Some("example.com".into()),
+    created_start: Some("example.com".into()),
+    created_end: Some("example.com".into()),
+    limit: Some(1_i64.into()),
+    offset: Some(1_i64.into()),
+};
 let response = client.abuse().get_tickets_v2(request).await?;
 ```
 
@@ -138,9 +152,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::CreateTicketV2Request;
 
-let request = CreateTicketV2Request::new(
-    // Fill endpoint fields here
-);
+let request = CreateTicketV2Request {
+    body: serde_json::json!({"domain": "example.com"}).into(),
+};
 let response = client.abuse().create_ticket_v2(request).await?;
 ```
 
@@ -161,9 +175,9 @@ Request code:
 ```rust
 use godaddy_rust::dto::abuse::request::GetTicketInfoV2Request;
 
-let request = GetTicketInfoV2Request::new(
-    // Fill endpoint fields here
-);
+let request = GetTicketInfoV2Request {
+    ticket_id: "123456789".into(),
+};
 let response = client.abuse().get_ticket_info_v2(request).await?;
 ```
 
@@ -188,3 +202,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for abuse endpoints.
+
+
+
+

@@ -17,9 +17,10 @@ Request code:
 ```rust
 use godaddy_rust::dto::auctions::request::PlaceBidsRequest;
 
-let request = PlaceBidsRequest::new(
-    // Fill endpoint fields here
-);
+let request = PlaceBidsRequest {
+    customer_id: "123456789".into(),
+    request_body: serde_json::json!({"domain": "example.com"}).into(),
+};
 let response = client.auctions().place_bids(request).await?;
 ```
 
@@ -38,3 +39,7 @@ Response JSON example:
 ## Exceptions
 
 Service-specific exceptions are exposed under `godaddy_rust::error` for auctions endpoints.
+
+
+
+
