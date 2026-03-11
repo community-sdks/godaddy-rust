@@ -1,6 +1,6 @@
 [package]
 name = "community-sdks-godaddy"
-version = "1.0.2"
+version = "1.0.3"
 edition = "2021"
 description = "Community GoDaddy SDK for Rust"
 license = "MIT"
