@@ -1,791 +1,1750 @@
-# DomainsService
+# Domains Service
 
-Domain availability, purchase, management, transfer, and DNS endpoints.
+Client accessor: `client.domains()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.domains();
-```
+- [`list`](#list): `ListResponse`
+- [`get_agreement`](#get_agreement): `GetAgreementResponse`
+- [`available`](#available): `AvailableResponse`
+- [`available_bulk`](#available_bulk): `AvailableBulkResponse`
+- [`contacts_validate`](#contacts_validate): `ContactsValidateResponse`
+- [`purchase`](#purchase): `PurchaseResponse`
+- [`schema`](#schema): `SchemaResponse`
+- [`validate`](#validate): `ValidateResponse`
+- [`suggest`](#suggest): `SuggestResponse`
+- [`tlds`](#tlds): `TldsResponse`
+- [`cancel`](#cancel): `CancelResponse`
+- [`get`](#get): `GetResponse`
+- [`update`](#update): `UpdateResponse`
+- [`update_contacts`](#update_contacts): `UpdateContactsResponse`
+- [`cancel_privacy`](#cancel_privacy): `CancelPrivacyResponse`
+- [`purchase_privacy`](#purchase_privacy): `PurchasePrivacyResponse`
+- [`record_add`](#record_add): `RecordAddResponse`
+- [`record_replace`](#record_replace): `RecordReplaceResponse`
+- [`record_get`](#record_get): `RecordGetResponse`
+- [`record_replace_type_name`](#record_replace_type_name): `RecordReplaceTypeNameResponse`
+- [`record_delete_type_name`](#record_delete_type_name): `RecordDeleteTypeNameResponse`
+- [`record_replace_type`](#record_replace_type): `RecordReplaceTypeResponse`
+- [`renew`](#renew): `RenewResponse`
+- [`transfer_in`](#transfer_in): `TransferInResponse`
+- [`verify_email`](#verify_email): `VerifyEmailResponse`
+- [`get_customer_domain`](#get_customer_domain): `GetCustomerDomainResponse`
+- [`cancel_customer_domain_change_of_registrant`](#cancel_customer_domain_change_of_registrant): `CancelCustomerDomainChangeOfRegistrantResponse`
+- [`get_customer_domain_change_of_registrant`](#get_customer_domain_change_of_registrant): `GetCustomerDomainChangeOfRegistrantResponse`
+- [`add_customer_domain_dnssec_records`](#add_customer_domain_dnssec_records): `AddCustomerDomainDnssecRecordsResponse`
+- [`remove_customer_domain_dnssec_records`](#remove_customer_domain_dnssec_records): `RemoveCustomerDomainDnssecRecordsResponse`
+- [`replace_customer_domain_name_servers`](#replace_customer_domain_name_servers): `ReplaceCustomerDomainNameServersResponse`
+- [`get_customer_domain_privacy_forwarding`](#get_customer_domain_privacy_forwarding): `GetCustomerDomainPrivacyForwardingResponse`
+- [`update_customer_domain_privacy_forwarding`](#update_customer_domain_privacy_forwarding): `UpdateCustomerDomainPrivacyForwardingResponse`
+- [`redeem_customer_domain`](#redeem_customer_domain): `RedeemCustomerDomainResponse`
+- [`renew_customer_domain`](#renew_customer_domain): `RenewCustomerDomainResponse`
+- [`transfer_customer_domain`](#transfer_customer_domain): `TransferCustomerDomainResponse`
+- [`get_customer_domain_transfer_status`](#get_customer_domain_transfer_status): `GetCustomerDomainTransferStatusResponse`
+- [`validate_customer_domain_transfer`](#validate_customer_domain_transfer): `ValidateCustomerDomainTransferResponse`
+- [`accept_customer_domain_transfer_in`](#accept_customer_domain_transfer_in): `AcceptCustomerDomainTransferInResponse`
+- [`cancel_customer_domain_transfer_in`](#cancel_customer_domain_transfer_in): `CancelCustomerDomainTransferInResponse`
+- [`restart_customer_domain_transfer_in`](#restart_customer_domain_transfer_in): `RestartCustomerDomainTransferInResponse`
+- [`retry_customer_domain_transfer_in`](#retry_customer_domain_transfer_in): `RetryCustomerDomainTransferInResponse`
+- [`initiate_customer_domain_transfer_out`](#initiate_customer_domain_transfer_out): `InitiateCustomerDomainTransferOutResponse`
+- [`accept_customer_domain_transfer_out`](#accept_customer_domain_transfer_out): `AcceptCustomerDomainTransferOutResponse`
+- [`reject_customer_domain_transfer_out`](#reject_customer_domain_transfer_out): `RejectCustomerDomainTransferOutResponse`
+- [`delete_domain_forwarding`](#delete_domain_forwarding): `DeleteDomainForwardingResponse`
+- [`get_domain_forwarding`](#get_domain_forwarding): `GetDomainForwardingResponse`
+- [`update_domain_forwarding`](#update_domain_forwarding): `UpdateDomainForwardingResponse`
+- [`create_domain_forwarding`](#create_domain_forwarding): `CreateDomainForwardingResponse`
+- [`list_customer_domain_actions`](#list_customer_domain_actions): `ListCustomerDomainActionsResponse`
+- [`cancel_customer_domain_action`](#cancel_customer_domain_action): `CancelCustomerDomainActionResponse`
+- [`get_customer_domain_action`](#get_customer_domain_action): `GetCustomerDomainActionResponse`
+- [`get_customer_domain_notifications`](#get_customer_domain_notifications): `GetCustomerDomainNotificationsResponse`
+- [`get_customer_domain_notification_opt_ins`](#get_customer_domain_notification_opt_ins): `GetCustomerDomainNotificationOptInsResponse`
+- [`update_customer_domain_notification_opt_ins`](#update_customer_domain_notification_opt_ins): `UpdateCustomerDomainNotificationOptInsResponse`
+- [`get_customer_domain_notification_schema`](#get_customer_domain_notification_schema): `GetCustomerDomainNotificationSchemaResponse`
+- [`acknowledge_customer_domain_notification`](#acknowledge_customer_domain_notification): `AcknowledgeCustomerDomainNotificationResponse`
+- [`register_customer_domain`](#register_customer_domain): `RegisterCustomerDomainResponse`
+- [`get_customer_domain_register_schema`](#get_customer_domain_register_schema): `GetCustomerDomainRegisterSchemaResponse`
+- [`validate_customer_domain_register`](#validate_customer_domain_register): `ValidateCustomerDomainRegisterResponse`
+- [`list_domain_maintenances`](#list_domain_maintenances): `ListDomainMaintenancesResponse`
+- [`get_domain_maintenance`](#get_domain_maintenance): `GetDomainMaintenanceResponse`
+- [`get_domain_usage`](#get_domain_usage): `GetDomainUsageResponse`
+- [`update_customer_domain_contacts`](#update_customer_domain_contacts): `UpdateCustomerDomainContactsResponse`
+- [`regenerate_customer_domain_auth_code`](#regenerate_customer_domain_auth_code): `RegenerateCustomerDomainAuthCodeResponse`
 
-## Endpoints
+## Methods
 
 ### list
 
-Calls `GET /v1/domains`.
+Returns: `ListResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().list(Some("header-value".into()), Some(vec!["sample"].into()), Some(vec!["sample"].into()), Some(1_i64.into()), Some("sample".into()), Some(vec!["sample"].into()), Some("sample".into())).await?;
+use godaddy_rust::dto::domains::request::ListRequest;
+
+let request = ListRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().list(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
 ### get_agreement
 
-Calls `GET /v1/domains/agreements`.
+Returns: `GetAgreementResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_agreement(vec!["sample"].into(), true.into(), Some("header-value".into()), Some(true.into())).await?;
+use godaddy_rust::dto::domains::request::GetAgreementRequest;
+
+let request = GetAgreementRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_agreement(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "agreements": [
+    {
+      "agreementKey": "DNRA",
+      "title": "Domain Name Registration Agreement",
+      "url": "https://www.godaddy.com/legal/agreements/domain-registration"
+    }
+  ]
+}
 ```
 
 ### available
 
-Calls `GET /v1/domains/available`.
+Returns: `AvailableResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().available("sample".into(), Some("sample".into()), Some(true.into())).await?;
+use godaddy_rust::dto::domains::request::AvailableRequest;
+
+let request = AvailableRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().available(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "available": true,
+  "price": 1999,
+  "currency": "USD",
+  "definitive": true,
+  "period": 1
+}
 ```
 
 ### available_bulk
 
-Calls `POST /v1/domains/available`.
+Returns: `AvailableBulkResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().available_bulk(vec!["sample"].into(), Some("sample".into())).await?;
+use godaddy_rust::dto::domains::request::AvailableBulkRequest;
+
+let request = AvailableBulkRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().available_bulk(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domains": [
+    {
+      "domain": "example.com",
+      "available": true,
+      "price": 1999,
+      "currency": "USD"
+    }
+  ]
+}
 ```
 
 ### contacts_validate
 
-Calls `POST /v1/domains/contacts/validate`.
+Returns: `ContactsValidateResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().contacts_validate(json!({"sample": true}).into(), Some("header-value".into()), Some("sample".into())).await?;
+use godaddy_rust::dto::domains::request::ContactsValidateRequest;
+
+let request = ContactsValidateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().contacts_validate(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "valid": false,
+  "errors": [
+    {
+      "path": "domain",
+      "message": "Domain is invalid"
+    }
+  ]
+}
 ```
 
 ### purchase
 
-Calls `POST /v1/domains/purchase`.
+Returns: `PurchaseResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().purchase(json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::PurchaseRequest;
+
+let request = PurchaseRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().purchase(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### schema
 
-Calls `GET /v1/domains/purchase/schema/{tld}`.
+Returns: `SchemaResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().schema("sample".into()).await?;
+use godaddy_rust::dto::domains::request::SchemaRequest;
+
+let request = SchemaRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().schema(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "fields": [
+    {
+      "path": "consent.agreementKeys",
+      "type": "array",
+      "required": true
+    }
+  ]
+}
 ```
 
 ### validate
 
-Calls `POST /v1/domains/purchase/validate`.
+Returns: `ValidateResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().validate(json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::domains::request::ValidateRequest;
+
+let request = ValidateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().validate(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "valid": false,
+  "errors": [
+    {
+      "path": "domain",
+      "message": "Domain is invalid"
+    }
+  ]
+}
 ```
 
 ### suggest
 
-Calls `GET /v1/domains/suggest`.
+Returns: `SuggestResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().suggest(Some("header-value".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some(vec!["sample"].into()), Some(vec!["sample"].into()), Some(1_i64.into()), Some(1_i64.into()), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::domains::request::SuggestRequest;
+
+let request = SuggestRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().suggest(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+[
+  "example.com",
+  "example.net"
+]
 ```
 
 ### tlds
 
-Calls `GET /v1/domains/tlds`.
+Returns: `TldsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().tlds().await?;
+use godaddy_rust::dto::domains::request::TldsRequest;
+
+let request = TldsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().tlds(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "tld": "com",
+  "type": "GENERIC",
+  "isIdn": false
+}
 ```
 
 ### cancel
 
-Calls `DELETE /v1/domains/{domain}`.
+Returns: `CancelResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().cancel("sample".into()).await?;
+use godaddy_rust::dto::domains::request::CancelRequest;
+
+let request = CancelRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().cancel(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "success": true
+}
 ```
 
 ### get
 
-Calls `GET /v1/domains/{domain}`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
 ### update
 
-Calls `PATCH /v1/domains/{domain}`.
+Returns: `UpdateResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().update("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::UpdateRequest;
+
+let request = UpdateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### update_contacts
 
-Calls `PATCH /v1/domains/{domain}/contacts`.
+Returns: `UpdateContactsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().update_contacts("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::UpdateContactsRequest;
+
+let request = UpdateContactsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update_contacts(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### cancel_privacy
 
-Calls `DELETE /v1/domains/{domain}/privacy`.
+Returns: `CancelPrivacyResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().cancel_privacy("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::CancelPrivacyRequest;
+
+let request = CancelPrivacyRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().cancel_privacy(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "success": true
+}
 ```
 
 ### purchase_privacy
 
-Calls `POST /v1/domains/{domain}/privacy/purchase`.
+Returns: `PurchasePrivacyResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().purchase_privacy("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::PurchasePrivacyRequest;
+
+let request = PurchasePrivacyRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().purchase_privacy(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### record_add
 
-Calls `PATCH /v1/domains/{domain}/records`.
+Returns: `RecordAddResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_add("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RecordAddRequest;
+
+let request = RecordAddRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_add(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### record_replace
 
-Calls `PUT /v1/domains/{domain}/records`.
+Returns: `RecordReplaceResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_replace("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RecordReplaceRequest;
+
+let request = RecordReplaceRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_replace(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### record_get
 
-Calls `GET /v1/domains/{domain}/records/{type}/{name}`.
+Returns: `RecordGetResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_get("sample".into(), "sample".into(), "sample".into(), Some("header-value".into()), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::domains::request::RecordGetRequest;
+
+let request = RecordGetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_get(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### record_replace_type_name
 
-Calls `PUT /v1/domains/{domain}/records/{type}/{name}`.
+Returns: `RecordReplaceTypeNameResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_replace_type_name("sample".into(), "sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RecordReplaceTypeNameRequest;
+
+let request = RecordReplaceTypeNameRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_replace_type_name(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### record_delete_type_name
 
-Calls `DELETE /v1/domains/{domain}/records/{type}/{name}`.
+Returns: `RecordDeleteTypeNameResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_delete_type_name("sample".into(), "sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RecordDeleteTypeNameRequest;
+
+let request = RecordDeleteTypeNameRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_delete_type_name(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### record_replace_type
 
-Calls `PUT /v1/domains/{domain}/records/{type}`.
+Returns: `RecordReplaceTypeResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().record_replace_type("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RecordReplaceTypeRequest;
+
+let request = RecordReplaceTypeRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().record_replace_type(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
 ### renew
 
-Calls `POST /v1/domains/{domain}/renew`.
+Returns: `RenewResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().renew("sample".into(), Some("header-value".into()), Some(json!({"sample": true}).into())).await?;
+use godaddy_rust::dto::domains::request::RenewRequest;
+
+let request = RenewRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().renew(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### transfer_in
 
-Calls `POST /v1/domains/{domain}/transfer`.
+Returns: `TransferInResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().transfer_in("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::TransferInRequest;
+
+let request = TransferInRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().transfer_in(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
 ### verify_email
 
-Calls `POST /v1/domains/{domain}/verifyRegistrantEmail`.
+Returns: `VerifyEmailResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().verify_email("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::VerifyEmailRequest;
+
+let request = VerifyEmailRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().verify_email(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain
+### get_customer_domain
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}`.
+Returns: `GetCustomerDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain("sample".into(), "sample".into(), Some("header-value".into()), Some(vec!["sample"].into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainRequest;
+
+let request = GetCustomerDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
-### delete_v2_customers_customer_id_domains_domain_change_of_registrant
+### cancel_customer_domain_change_of_registrant
 
-Calls `DELETE /v2/customers/{customerId}/domains/{domain}/changeOfRegistrant`.
+Returns: `CancelCustomerDomainChangeOfRegistrantResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().delete_v2_customers_customer_id_domains_domain_change_of_registrant("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::CancelCustomerDomainChangeOfRegistrantRequest;
+
+let request = CancelCustomerDomainChangeOfRegistrantRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().cancel_customer_domain_change_of_registrant(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "success": true
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain_change_of_registrant
+### get_customer_domain_change_of_registrant
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}/changeOfRegistrant`.
+Returns: `GetCustomerDomainChangeOfRegistrantResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain_change_of_registrant("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainChangeOfRegistrantRequest;
+
+let request = GetCustomerDomainChangeOfRegistrantRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_change_of_registrant(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
-### patch_v2_customers_customer_id_domains_domain_dnssec_records
+### add_customer_domain_dnssec_records
 
-Calls `PATCH /v2/customers/{customerId}/domains/{domain}/dnssecRecords`.
+Returns: `AddCustomerDomainDnssecRecordsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().patch_v2_customers_customer_id_domains_domain_dnssec_records("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::AddCustomerDomainDnssecRecordsRequest;
+
+let request = AddCustomerDomainDnssecRecordsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().add_customer_domain_dnssec_records(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
-### delete_v2_customers_customer_id_domains_domain_dnssec_records
+### remove_customer_domain_dnssec_records
 
-Calls `DELETE /v2/customers/{customerId}/domains/{domain}/dnssecRecords`.
+Returns: `RemoveCustomerDomainDnssecRecordsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().delete_v2_customers_customer_id_domains_domain_dnssec_records("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RemoveCustomerDomainDnssecRecordsRequest;
+
+let request = RemoveCustomerDomainDnssecRecordsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().remove_customer_domain_dnssec_records(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "type": "A",
+  "name": "@",
+  "data": "203.0.113.10",
+  "ttl": 600
+}
 ```
 
-### put_v2_customers_customer_id_domains_domain_name_servers
+### replace_customer_domain_name_servers
 
-Calls `PUT /v2/customers/{customerId}/domains/{domain}/nameServers`.
+Returns: `ReplaceCustomerDomainNameServersResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().put_v2_customers_customer_id_domains_domain_name_servers("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::ReplaceCustomerDomainNameServersRequest;
+
+let request = ReplaceCustomerDomainNameServersRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().replace_customer_domain_name_servers(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain_privacy_forwarding
+### get_customer_domain_privacy_forwarding
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}/privacy/forwarding`.
+Returns: `GetCustomerDomainPrivacyForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain_privacy_forwarding("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainPrivacyForwardingRequest;
+
+let request = GetCustomerDomainPrivacyForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_privacy_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### patch_v2_customers_customer_id_domains_domain_privacy_forwarding
+### update_customer_domain_privacy_forwarding
 
-Calls `PATCH /v2/customers/{customerId}/domains/{domain}/privacy/forwarding`.
+Returns: `UpdateCustomerDomainPrivacyForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().patch_v2_customers_customer_id_domains_domain_privacy_forwarding("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::UpdateCustomerDomainPrivacyForwardingRequest;
+
+let request = UpdateCustomerDomainPrivacyForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update_customer_domain_privacy_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_redeem
+### redeem_customer_domain
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/redeem`.
+Returns: `RedeemCustomerDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_redeem("sample".into(), "sample".into(), Some("header-value".into()), Some(json!({"sample": true}).into())).await?;
+use godaddy_rust::dto::domains::request::RedeemCustomerDomainRequest;
+
+let request = RedeemCustomerDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().redeem_customer_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_renew
+### renew_customer_domain
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/renew`.
+Returns: `RenewCustomerDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_renew("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RenewCustomerDomainRequest;
+
+let request = RenewCustomerDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().renew_customer_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer
+### transfer_customer_domain
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transfer`.
+Returns: `TransferCustomerDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::TransferCustomerDomainRequest;
+
+let request = TransferCustomerDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().transfer_customer_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain_transfer
+### get_customer_domain_transfer_status
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}/transfer`.
+Returns: `GetCustomerDomainTransferStatusResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain_transfer("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainTransferStatusRequest;
+
+let request = GetCustomerDomainTransferStatusRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_transfer_status(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_validate
+### validate_customer_domain_transfer
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transfer/validate`.
+Returns: `ValidateCustomerDomainTransferResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_validate("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::ValidateCustomerDomainTransferRequest;
+
+let request = ValidateCustomerDomainTransferRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().validate_customer_domain_transfer(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "valid": false,
+  "errors": [
+    {
+      "path": "domain",
+      "message": "Domain is invalid"
+    }
+  ]
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_in_accept
+### accept_customer_domain_transfer_in
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferInAccept`.
+Returns: `AcceptCustomerDomainTransferInResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_in_accept("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::AcceptCustomerDomainTransferInRequest;
+
+let request = AcceptCustomerDomainTransferInRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().accept_customer_domain_transfer_in(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_in_cancel
+### cancel_customer_domain_transfer_in
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferInCancel`.
+Returns: `CancelCustomerDomainTransferInResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_in_cancel("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::CancelCustomerDomainTransferInRequest;
+
+let request = CancelCustomerDomainTransferInRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().cancel_customer_domain_transfer_in(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_in_restart
+### restart_customer_domain_transfer_in
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferInRestart`.
+Returns: `RestartCustomerDomainTransferInResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_in_restart("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RestartCustomerDomainTransferInRequest;
+
+let request = RestartCustomerDomainTransferInRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().restart_customer_domain_transfer_in(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_in_retry
+### retry_customer_domain_transfer_in
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferInRetry`.
+Returns: `RetryCustomerDomainTransferInResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_in_retry("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RetryCustomerDomainTransferInRequest;
+
+let request = RetryCustomerDomainTransferInRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().retry_customer_domain_transfer_in(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_out
+### initiate_customer_domain_transfer_out
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferOut`.
+Returns: `InitiateCustomerDomainTransferOutResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_out("sample".into(), "sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::InitiateCustomerDomainTransferOutRequest;
+
+let request = InitiateCustomerDomainTransferOutRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().initiate_customer_domain_transfer_out(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_out_accept
+### accept_customer_domain_transfer_out
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferOutAccept`.
+Returns: `AcceptCustomerDomainTransferOutResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_out_accept("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::AcceptCustomerDomainTransferOutRequest;
+
+let request = AcceptCustomerDomainTransferOutRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().accept_customer_domain_transfer_out(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_transfer_out_reject
+### reject_customer_domain_transfer_out
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/transferOutReject`.
+Returns: `RejectCustomerDomainTransferOutResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_transfer_out_reject("sample".into(), "sample".into(), Some("header-value".into()), Some("sample".into())).await?;
+use godaddy_rust::dto::domains::request::RejectCustomerDomainTransferOutRequest;
+
+let request = RejectCustomerDomainTransferOutRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().reject_customer_domain_transfer_out(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "transferStatus": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### domains_forwards_delete
+### delete_domain_forwarding
 
-Calls `DELETE /v2/customers/{customerId}/domains/forwards/{fqdn}`.
+Returns: `DeleteDomainForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().domains_forwards_delete("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::domains::request::DeleteDomainForwardingRequest;
+
+let request = DeleteDomainForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().delete_domain_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### domains_forwards_get
+### get_domain_forwarding
 
-Calls `GET /v2/customers/{customerId}/domains/forwards/{fqdn}`.
+Returns: `GetDomainForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().domains_forwards_get("sample".into(), "sample".into(), Some(true.into())).await?;
+use godaddy_rust::dto::domains::request::GetDomainForwardingRequest;
+
+let request = GetDomainForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_domain_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### domains_forwards_put
+### update_domain_forwarding
 
-Calls `PUT /v2/customers/{customerId}/domains/forwards/{fqdn}`.
+Returns: `UpdateDomainForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().domains_forwards_put("sample".into(), "sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::domains::request::UpdateDomainForwardingRequest;
+
+let request = UpdateDomainForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update_domain_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### domains_forwards_post
+### create_domain_forwarding
 
-Calls `POST /v2/customers/{customerId}/domains/forwards/{fqdn}`.
+Returns: `CreateDomainForwardingResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().domains_forwards_post("sample".into(), "sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::domains::request::CreateDomainForwardingRequest;
+
+let request = CreateDomainForwardingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().create_domain_forwarding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fqdn": "example.com",
+  "type": "PERMANENT",
+  "to": "https://www.example.com"
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain_actions
+### list_customer_domain_actions
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}/actions`.
+Returns: `ListCustomerDomainActionsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain_actions("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::ListCustomerDomainActionsRequest;
+
+let request = ListCustomerDomainActionsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().list_customer_domain_actions(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "actionType": "CHANGE_OF_REGISTRANT",
+  "status": "PENDING",
+  "createdAt": "2026-03-11T12:00:00Z",
+  "domain": "example.com"
+}
 ```
 
-### delete_v2_customers_customer_id_domains_domain_actions_type
+### cancel_customer_domain_action
 
-Calls `DELETE /v2/customers/{customerId}/domains/{domain}/actions/{type}`.
+Returns: `CancelCustomerDomainActionResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().delete_v2_customers_customer_id_domains_domain_actions_type("sample".into(), "sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::CancelCustomerDomainActionRequest;
+
+let request = CancelCustomerDomainActionRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().cancel_customer_domain_action(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "success": true
+}
 ```
 
-### get_v2_customers_customer_id_domains_domain_actions_type
+### get_customer_domain_action
 
-Calls `GET /v2/customers/{customerId}/domains/{domain}/actions/{type}`.
+Returns: `GetCustomerDomainActionResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_domain_actions_type("sample".into(), "sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainActionRequest;
+
+let request = GetCustomerDomainActionRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_action(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
 
-### get_v2_customers_customer_id_domains_notifications
+### get_customer_domain_notifications
 
-Calls `GET /v2/customers/{customerId}/domains/notifications`.
+Returns: `GetCustomerDomainNotificationsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_notifications("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainNotificationsRequest;
+
+let request = GetCustomerDomainNotificationsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_notifications(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "type": "EXPIRATION",
+  "optedIn": true
+}
 ```
 
-### get_v2_customers_customer_id_domains_notifications_opt_in
+### get_customer_domain_notification_opt_ins
 
-Calls `GET /v2/customers/{customerId}/domains/notifications/optIn`.
+Returns: `GetCustomerDomainNotificationOptInsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_notifications_opt_in("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainNotificationOptInsRequest;
+
+let request = GetCustomerDomainNotificationOptInsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_notification_opt_ins(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "type": "EXPIRATION",
+  "optedIn": true
+}
 ```
 
-### put_v2_customers_customer_id_domains_notifications_opt_in
+### update_customer_domain_notification_opt_ins
 
-Calls `PUT /v2/customers/{customerId}/domains/notifications/optIn`.
+Returns: `UpdateCustomerDomainNotificationOptInsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().put_v2_customers_customer_id_domains_notifications_opt_in("sample".into(), vec!["sample"].into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::UpdateCustomerDomainNotificationOptInsRequest;
+
+let request = UpdateCustomerDomainNotificationOptInsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update_customer_domain_notification_opt_ins(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "type": "EXPIRATION",
+  "optedIn": true
+}
 ```
 
-### get_v2_customers_customer_id_domains_notifications_schemas_type
+### get_customer_domain_notification_schema
 
-Calls `GET /v2/customers/{customerId}/domains/notifications/schemas/{type}`.
+Returns: `GetCustomerDomainNotificationSchemaResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_notifications_schemas_type("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainNotificationSchemaRequest;
+
+let request = GetCustomerDomainNotificationSchemaRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_notification_schema(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fields": [
+    {
+      "path": "type",
+      "type": "string",
+      "required": true
+    }
+  ]
+}
 ```
 
-### post_v2_customers_customer_id_domains_notifications_notification_id_acknowledge
+### acknowledge_customer_domain_notification
 
-Calls `POST /v2/customers/{customerId}/domains/notifications/{notificationId}/acknowledge`.
+Returns: `AcknowledgeCustomerDomainNotificationResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_notifications_notification_id_acknowledge("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::AcknowledgeCustomerDomainNotificationRequest;
+
+let request = AcknowledgeCustomerDomainNotificationRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().acknowledge_customer_domain_notification(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "notificationId": "notif_1",
+  "acknowledged": true,
+  "acknowledgedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_register
+### register_customer_domain
 
-Calls `POST /v2/customers/{customerId}/domains/register`.
+Returns: `RegisterCustomerDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_register("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RegisterCustomerDomainRequest;
+
+let request = RegisterCustomerDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().register_customer_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### get_v2_customers_customer_id_domains_register_schema_tld
+### get_customer_domain_register_schema
 
-Calls `GET /v2/customers/{customerId}/domains/register/schema/{tld}`.
+Returns: `GetCustomerDomainRegisterSchemaResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_customers_customer_id_domains_register_schema_tld("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetCustomerDomainRegisterSchemaRequest;
+
+let request = GetCustomerDomainRegisterSchemaRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_customer_domain_register_schema(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "fields": [
+    {
+      "path": "consent.agreementKeys",
+      "type": "array",
+      "required": true
+    }
+  ]
+}
 ```
 
-### post_v2_customers_customer_id_domains_register_validate
+### validate_customer_domain_register
 
-Calls `POST /v2/customers/{customerId}/domains/register/validate`.
+Returns: `ValidateCustomerDomainRegisterResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_register_validate("sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::ValidateCustomerDomainRegisterRequest;
+
+let request = ValidateCustomerDomainRegisterRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().validate_customer_domain_register(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "valid": false,
+  "errors": [
+    {
+      "path": "domain",
+      "message": "Domain is invalid"
+    }
+  ]
+}
 ```
 
-### get_v2_domains_maintenances
+### list_domain_maintenances
 
-Calls `GET /v2/domains/maintenances`.
+Returns: `ListDomainMaintenancesResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_domains_maintenances(Some("header-value".into()), Some(vec!["sample"].into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::domains::request::ListDomainMaintenancesRequest;
+
+let request = ListDomainMaintenancesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().list_domain_maintenances(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "maintenanceId": "mnt_1",
+  "status": "SCHEDULED",
+  "startsAt": "2026-03-20T00:00:00Z",
+  "endsAt": "2026-03-20T02:00:00Z"
+}
 ```
 
-### get_v2_domains_maintenances_maintenance_id
+### get_domain_maintenance
 
-Calls `GET /v2/domains/maintenances/{maintenanceId}`.
+Returns: `GetDomainMaintenanceResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_domains_maintenances_maintenance_id("sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::GetDomainMaintenanceRequest;
+
+let request = GetDomainMaintenanceRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_domain_maintenance(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "maintenanceId": "mnt_1",
+  "status": "SCHEDULED",
+  "startsAt": "2026-03-20T00:00:00Z",
+  "endsAt": "2026-03-20T02:00:00Z"
+}
 ```
 
-### get_v2_domains_usage_yyyymm
+### get_domain_usage
 
-Calls `GET /v2/domains/usage/{yyyymm}`.
+Returns: `GetDomainUsageResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().get_v2_domains_usage_yyyymm("sample".into(), Some("header-value".into()), Some(vec!["sample"].into())).await?;
+use godaddy_rust::dto::domains::request::GetDomainUsageRequest;
+
+let request = GetDomainUsageRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().get_domain_usage(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "month": "202603",
+  "domainsUnderManagement": 120,
+  "domainAdds": 10,
+  "domainTransfersIn": 3
+}
 ```
 
-### patch_v2_customers_customer_id_domains_domain_contacts
+### update_customer_domain_contacts
 
-Calls `PATCH /v2/customers/{customerId}/domains/{domain}/contacts`.
+Returns: `UpdateCustomerDomainContactsResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().patch_v2_customers_customer_id_domains_domain_contacts("sample".into(), "sample".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::UpdateCustomerDomainContactsRequest;
+
+let request = UpdateCustomerDomainContactsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().update_customer_domain_contacts(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "status": "PENDING",
+  "submittedAt": "2026-03-11T12:00:00Z"
+}
 ```
 
-### post_v2_customers_customer_id_domains_domain_regenerate_auth_code
+### regenerate_customer_domain_auth_code
 
-Calls `POST /v2/customers/{customerId}/domains/{domain}/regenerateAuthCode`.
+Returns: `RegenerateCustomerDomainAuthCodeResponse`
+
+Request code:
 
 ```rust
-let response = client.domains().post_v2_customers_customer_id_domains_domain_regenerate_auth_code("sample".into(), "sample".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::domains::request::RegenerateCustomerDomainAuthCodeRequest;
+
+let request = RegenerateCustomerDomainAuthCodeRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.domains().regenerate_customer_domain_auth_code(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "status": "ACTIVE",
+  "expires": "2027-03-11T00:00:00Z",
+  "authCode": "AUTHCODE"
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for domains endpoints.

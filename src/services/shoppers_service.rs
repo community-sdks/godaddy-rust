@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -21,8 +19,11 @@ impl ShoppersService {
         }
     }
 
-    pub async fn create_subaccount(&self, subaccount: impl Into<ParamValue>) -> ApiResult<Value> {
-        let subaccount = subaccount.into();
+    pub async fn create_subaccount(
+        &self,
+        request: crate::dto::shoppers::request::CreateSubaccountRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::CreateSubaccountResponse> {
+        let subaccount = request.subaccount;
         self.inner
             .call(
                 "POST",
@@ -33,14 +34,15 @@ impl ShoppersService {
                 Some(subaccount),
             )
             .await
+            .map(crate::dto::shoppers::response::CreateSubaccountResponse::from_value)
     }
 
     pub async fn get(
         &self,
-        shopper_id: impl Into<ParamValue>,
-        includes: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let shopper_id = shopper_id.into();
+        request: crate::dto::shoppers::request::GetRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::GetResponse> {
+        let shopper_id = request.shopper_id;
+        let includes = request.includes;
         self.inner
             .call(
                 "GET",
@@ -51,15 +53,15 @@ impl ShoppersService {
                 None,
             )
             .await
+            .map(crate::dto::shoppers::response::GetResponse::from_value)
     }
 
     pub async fn update(
         &self,
-        shopper_id: impl Into<ParamValue>,
-        shopper: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let shopper_id = shopper_id.into();
-        let shopper = shopper.into();
+        request: crate::dto::shoppers::request::UpdateRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::UpdateResponse> {
+        let shopper_id = request.shopper_id;
+        let shopper = request.shopper;
         self.inner
             .call(
                 "POST",
@@ -70,15 +72,15 @@ impl ShoppersService {
                 Some(shopper),
             )
             .await
+            .map(crate::dto::shoppers::response::UpdateResponse::from_value)
     }
 
     pub async fn delete(
         &self,
-        shopper_id: impl Into<ParamValue>,
-        audit_client_ip: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let shopper_id = shopper_id.into();
-        let audit_client_ip = audit_client_ip.into();
+        request: crate::dto::shoppers::request::DeleteRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::DeleteResponse> {
+        let shopper_id = request.shopper_id;
+        let audit_client_ip = request.audit_client_ip;
         self.inner
             .call(
                 "DELETE",
@@ -89,15 +91,15 @@ impl ShoppersService {
                 None,
             )
             .await
+            .map(crate::dto::shoppers::response::DeleteResponse::from_value)
     }
 
     pub async fn get_status(
         &self,
-        shopper_id: impl Into<ParamValue>,
-        audit_client_ip: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let shopper_id = shopper_id.into();
-        let audit_client_ip = audit_client_ip.into();
+        request: crate::dto::shoppers::request::GetStatusRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::GetStatusResponse> {
+        let shopper_id = request.shopper_id;
+        let audit_client_ip = request.audit_client_ip;
         self.inner
             .call(
                 "GET",
@@ -108,15 +110,15 @@ impl ShoppersService {
                 None,
             )
             .await
+            .map(crate::dto::shoppers::response::GetStatusResponse::from_value)
     }
 
     pub async fn change_password(
         &self,
-        shopper_id: impl Into<ParamValue>,
-        secret: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let shopper_id = shopper_id.into();
-        let secret = secret.into();
+        request: crate::dto::shoppers::request::ChangePasswordRequest,
+    ) -> ApiResult<crate::dto::shoppers::response::ChangePasswordResponse> {
+        let shopper_id = request.shopper_id;
+        let secret = request.secret;
         self.inner
             .call(
                 "PUT",
@@ -127,5 +129,6 @@ impl ShoppersService {
                 Some(secret),
             )
             .await
+            .map(crate::dto::shoppers::response::ChangePasswordResponse::from_value)
     }
 }

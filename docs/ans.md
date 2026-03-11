@@ -1,155 +1,410 @@
-# AnsService
+# ANS Service
 
-Authoritative DNS record and nameserver management endpoints.
+Client accessor: `client.ans()`
 
-## Accessor
+## Method Index
+
+- [`search`](#search): `SearchResponse`
+- [`register`](#register): `RegisterResponse`
+- [`resolve`](#resolve): `ResolveResponse`
+- [`get`](#get): `GetResponse`
+- [`revoke`](#revoke): `RevokeResponse`
+- [`verify_acme`](#verify_acme): `VerifyAcmeResponse`
+- [`verify_dns`](#verify_dns): `VerifyDnsResponse`
+- [`get_identity_certificates`](#get_identity_certificates): `GetIdentityCertificatesResponse`
+- [`submit_identity_csr`](#submit_identity_csr): `SubmitIdentityCsrResponse`
+- [`get_server_certificates`](#get_server_certificates): `GetServerCertificatesResponse`
+- [`submit_server_csr`](#submit_server_csr): `SubmitServerCsrResponse`
+- [`get_csr_status`](#get_csr_status): `GetCsrStatusResponse`
+- [`events`](#events): `EventsResponse`
+
+## Methods
+
+### search
+
+Returns: `SearchResponse`
+
+Request code:
 
 ```rust
-let service = client.ans();
+use godaddy_rust::dto::ans::request::SearchRequest;
+
+let request = SearchRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().search(request).await?;
 ```
 
-## Endpoints
-
-### search_ans_name
-
-Calls `GET /v1/agents`.
-
-```rust
-let response = client.ans().search_ans_name(Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into())).await?;
-```
+Response JSON example:
 
 ```json
-{}
+{
+  "agents": [
+    {
+      "agentId": "agt_001",
+      "displayName": "Checkout Agent",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ],
+  "totalCount": 1,
+  "returnedCount": 1,
+  "limit": 10,
+  "offset": 0,
+  "hasMore": false
+}
 ```
 
-### register_agent
+### register
 
-Calls `POST /v1/agents/register`.
+Returns: `RegisterResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().register_agent(json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::ans::request::RegisterRequest;
+
+let request = RegisterRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().register(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### resolve_ans_name
+### resolve
 
-Calls `POST /v1/agents/resolution`.
+Returns: `ResolveResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().resolve_ans_name(json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::ans::request::ResolveRequest;
+
+let request = ResolveRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().resolve(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### get_agent
+### get
 
-Calls `GET /v1/agents/{agentId}`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().get_agent("sample".into()).await?;
+use godaddy_rust::dto::ans::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().get(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### validate_registration
+### revoke
 
-Calls `POST /v1/agents/{agentId}/verify-acme`.
+Returns: `RevokeResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().validate_registration("sample".into()).await?;
+use godaddy_rust::dto::ans::request::RevokeRequest;
+
+let request = RevokeRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().revoke(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### verify_dns_records
+### verify_acme
 
-Calls `POST /v1/agents/{agentId}/verify-dns`.
+Returns: `VerifyAcmeResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().verify_dns_records("sample".into()).await?;
+use godaddy_rust::dto::ans::request::VerifyAcmeRequest;
+
+let request = VerifyAcmeRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().verify_acme(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### get_agent_identity_certificate_by_agent_id
+### verify_dns
 
-Calls `GET /v1/agents/{agentId}/certificates/identity`.
+Returns: `VerifyDnsResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().get_agent_identity_certificate_by_agent_id("sample".into()).await?;
+use godaddy_rust::dto::ans::request::VerifyDnsRequest;
+
+let request = VerifyDnsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().verify_dns(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "agentId": "agt_001",
+  "status": "ACTIVE",
+  "displayName": "Checkout Agent",
+  "endpoints": [
+    {
+      "url": "https://agent.example.com",
+      "protocol": "MCP",
+      "status": "ACTIVE"
+    }
+  ]
+}
 ```
 
-### submit_agent_identity_csr_by_agent_id
+### get_identity_certificates
 
-Calls `POST /v1/agents/{agentId}/certificates/identity`.
+Returns: `GetIdentityCertificatesResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().submit_agent_identity_csr_by_agent_id("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::ans::request::GetIdentityCertificatesRequest;
+
+let request = GetIdentityCertificatesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().get_identity_certificates(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123",
+      "status": "ISSUED",
+      "expiresAt": "2027-03-11T00:00:00Z"
+    }
+  ]
+}
 ```
 
-### get_agent_server_certificate_by_agent_id
+### submit_identity_csr
 
-Calls `GET /v1/agents/{agentId}/certificates/server`.
+Returns: `SubmitIdentityCsrResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().get_agent_server_certificate_by_agent_id("sample".into()).await?;
+use godaddy_rust::dto::ans::request::SubmitIdentityCsrRequest;
+
+let request = SubmitIdentityCsrRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().submit_identity_csr(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "csrId": "csr_123"
+}
 ```
 
-### submit_agent_server_csr_by_agent_id
+### get_server_certificates
 
-Calls `POST /v1/agents/{agentId}/certificates/server`.
+Returns: `GetServerCertificatesResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().submit_agent_server_csr_by_agent_id("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::ans::request::GetServerCertificatesRequest;
+
+let request = GetServerCertificatesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().get_server_certificates(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123",
+      "status": "ISSUED",
+      "expiresAt": "2027-03-11T00:00:00Z"
+    }
+  ]
+}
 ```
 
-### get_agent_csr_status_by_agent_id
+### submit_server_csr
 
-Calls `GET /v1/agents/{agentId}/csrs/{csrId}/status`.
+Returns: `SubmitServerCsrResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().get_agent_csr_status_by_agent_id("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::ans::request::SubmitServerCsrRequest;
+
+let request = SubmitServerCsrRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().submit_server_csr(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "csrId": "csr_123"
+}
 ```
 
-### get_agent_events
+### get_csr_status
 
-Calls `GET /v1/agents/events`.
+Returns: `GetCsrStatusResponse`
+
+Request code:
 
 ```rust
-let response = client.ans().get_agent_events(Some("header-value".into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::ans::request::GetCsrStatusRequest;
+
+let request = GetCsrStatusRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().get_csr_status(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "csrId": "csr_123",
+  "status": "PENDING",
+  "updatedAt": "2026-03-11T12:00:00Z"
+}
 ```
+
+### events
+
+Returns: `EventsResponse`
+
+Request code:
+
+```rust
+use godaddy_rust::dto::ans::request::EventsRequest;
+
+let request = EventsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.ans().events(request).await?;
+```
+
+Response JSON example:
+
+```json
+{
+  "items": [
+    {
+      "eventId": "evt_1",
+      "type": "AGENT_UPDATED",
+      "createdAt": "2026-03-11T12:00:00Z"
+    }
+  ]
+}
+```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for ans endpoints.

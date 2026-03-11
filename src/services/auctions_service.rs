@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,11 +21,10 @@ impl AuctionsService {
 
     pub async fn place_bids(
         &self,
-        customer_id: impl Into<ParamValue>,
-        request_body: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let customer_id = customer_id.into();
-        let request_body = request_body.into();
+        request: crate::dto::auctions::request::PlaceBidsRequest,
+    ) -> ApiResult<crate::dto::auctions::response::PlaceBidsResponse> {
+        let customer_id = request.customer_id;
+        let request_body = request.request_body;
         self.inner
             .call(
                 "POST",
@@ -38,5 +35,6 @@ impl AuctionsService {
                 Some(request_body),
             )
             .await
+            .map(crate::dto::auctions::response::PlaceBidsResponse::from_value)
     }
 }

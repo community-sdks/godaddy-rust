@@ -1,83 +1,190 @@
-# AbuseService
+# Abuse Service
 
-Abuse reporting and ticket lookup endpoints for phishing, malware, and related investigations.
+Client accessor: `client.abuse()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.abuse();
-```
+- [`get_tickets`](#get_tickets): `GetTicketsResponse`
+- [`create_ticket`](#create_ticket): `CreateTicketResponse`
+- [`get_ticket_info`](#get_ticket_info): `GetTicketInfoResponse`
+- [`get_tickets_v2`](#get_tickets_v2): `GetTicketsV2Response`
+- [`create_ticket_v2`](#create_ticket_v2): `CreateTicketV2Response`
+- [`get_ticket_info_v2`](#get_ticket_info_v2): `GetTicketInfoV2Response`
 
-## Endpoints
+## Methods
 
 ### get_tickets
 
-Calls `GET /v1/abuse/tickets`.
+Returns: `GetTicketsResponse`
+
+Request code:
 
 ```rust
-let response = client.abuse().get_tickets(Some("sample".into()), Some(true.into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::abuse::request::GetTicketsRequest;
+
+let request = GetTicketsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().get_tickets(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketIds": [
+    "TCK-100001"
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
 ### create_ticket
 
-Calls `POST /v1/abuse/tickets`.
+Returns: `CreateTicketResponse`
+
+Request code:
 
 ```rust
-let response = client.abuse().create_ticket(json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::abuse::request::CreateTicketRequest;
+
+let request = CreateTicketRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().create_ticket(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketId": "TCK-100001"
+}
 ```
 
 ### get_ticket_info
 
-Calls `GET /v1/abuse/tickets/{ticketId}`.
+Returns: `GetTicketInfoResponse`
+
+Request code:
 
 ```rust
-let response = client.abuse().get_ticket_info("sample".into()).await?;
+use godaddy_rust::dto::abuse::request::GetTicketInfoRequest;
+
+let request = GetTicketInfoRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().get_ticket_info(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketId": "TCK-100001",
+  "type": "PHISHING",
+  "source": "203.0.113.10",
+  "target": "example.com",
+  "closed": false,
+  "notes": [
+    {
+      "message": "Initial report",
+      "createdAt": "2026-03-11T12:00:00Z"
+    }
+  ]
+}
 ```
 
 ### get_tickets_v2
 
-Calls `GET /v2/abuse/tickets`.
+Returns: `GetTicketsV2Response`
+
+Request code:
 
 ```rust
-let response = client.abuse().get_tickets_v2(Some("sample".into()), Some(true.into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::abuse::request::GetTicketsV2Request;
+
+let request = GetTicketsV2Request::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().get_tickets_v2(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketIds": [
+    "TCK-100001"
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
 ### create_ticket_v2
 
-Calls `POST /v2/abuse/tickets`.
+Returns: `CreateTicketV2Response`
+
+Request code:
 
 ```rust
-let response = client.abuse().create_ticket_v2(json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::abuse::request::CreateTicketV2Request;
+
+let request = CreateTicketV2Request::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().create_ticket_v2(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketId": "TCK-100001"
+}
 ```
 
 ### get_ticket_info_v2
 
-Calls `GET /v2/abuse/tickets/{ticketId}`.
+Returns: `GetTicketInfoV2Response`
+
+Request code:
 
 ```rust
-let response = client.abuse().get_ticket_info_v2("sample".into()).await?;
+use godaddy_rust::dto::abuse::request::GetTicketInfoV2Request;
+
+let request = GetTicketInfoV2Request::new(
+    // Fill endpoint fields here
+);
+let response = client.abuse().get_ticket_info_v2(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "ticketId": "TCK-100001",
+  "type": "PHISHING",
+  "source": "203.0.113.10",
+  "target": "example.com",
+  "closed": false,
+  "notes": [
+    {
+      "message": "Initial report",
+      "createdAt": "2026-03-11T12:00:00Z"
+    }
+  ]
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for abuse endpoints.

@@ -1,0 +1,16 @@
+use crate::api_client::ParamValue;
+
+#[derive(Clone, Debug)]
+pub struct GetV2CustomersCustomerIdDomainsNotificationsOptInRequest {
+    pub customer_id: ParamValue,
+    pub x_request_id: Option<ParamValue>,
+}
+
+impl GetV2CustomersCustomerIdDomainsNotificationsOptInRequest {
+    pub fn new(customer_id: impl Into<ParamValue>, x_request_id: Option<ParamValue>) -> Self {
+        Self {
+            customer_id: customer_id.into(),
+            x_request_id,
+        }
+    }
+}

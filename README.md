@@ -17,6 +17,7 @@ serde_json = "1"
 
 ```rust
 use godaddy_rust::{Client, Config};
+use godaddy_rust::dto::domains::request::TldsRequest;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -25,9 +26,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     config.api_secret = Some(String::from("your-api-secret"));
 
     let client = Client::new(config);
-    let domains = client.domains().tlds().await?;
+    let response = client.domains().tlds(TldsRequest::new()).await?;
 
-    println!("{}", domains);
+    println!("{}", response.raw);
     Ok(())
 }
 ```

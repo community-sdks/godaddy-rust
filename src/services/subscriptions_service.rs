@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,16 +21,16 @@ impl SubscriptionsService {
 
     pub async fn list(
         &self,
-        x_app_key: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-        x_market_id: Option<ParamValue>,
-        product_group_keys: Option<ParamValue>,
-        includes: Option<ParamValue>,
-        offset: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        sort: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let x_app_key = x_app_key.into();
+        request: crate::dto::subscriptions::request::ListRequest,
+    ) -> ApiResult<crate::dto::subscriptions::response::ListResponse> {
+        let x_app_key = request.x_app_key;
+        let x_shopper_id = request.x_shopper_id;
+        let x_market_id = request.x_market_id;
+        let product_group_keys = request.product_group_keys;
+        let includes = request.includes;
+        let offset = request.offset;
+        let limit = request.limit;
+        let sort = request.sort;
         self.inner
             .call(
                 "GET",
@@ -53,14 +51,15 @@ impl SubscriptionsService {
                 None,
             )
             .await
+            .map(crate::dto::subscriptions::response::ListResponse::from_value)
     }
 
     pub async fn product_groups(
         &self,
-        x_app_key: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let x_app_key = x_app_key.into();
+        request: crate::dto::subscriptions::request::ProductGroupsRequest,
+    ) -> ApiResult<crate::dto::subscriptions::response::ProductGroupsResponse> {
+        let x_app_key = request.x_app_key;
+        let x_shopper_id = request.x_shopper_id;
         self.inner
             .call(
                 "GET",
@@ -74,16 +73,16 @@ impl SubscriptionsService {
                 None,
             )
             .await
+            .map(crate::dto::subscriptions::response::ProductGroupsResponse::from_value)
     }
 
     pub async fn cancel(
         &self,
-        subscription_id: impl Into<ParamValue>,
-        x_app_key: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let subscription_id = subscription_id.into();
-        let x_app_key = x_app_key.into();
+        request: crate::dto::subscriptions::request::CancelRequest,
+    ) -> ApiResult<crate::dto::subscriptions::response::CancelResponse> {
+        let subscription_id = request.subscription_id;
+        let x_app_key = request.x_app_key;
+        let x_shopper_id = request.x_shopper_id;
         self.inner
             .call(
                 "DELETE",
@@ -97,16 +96,16 @@ impl SubscriptionsService {
                 None,
             )
             .await
+            .map(crate::dto::subscriptions::response::CancelResponse::from_value)
     }
 
     pub async fn get(
         &self,
-        subscription_id: impl Into<ParamValue>,
-        x_app_key: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let subscription_id = subscription_id.into();
-        let x_app_key = x_app_key.into();
+        request: crate::dto::subscriptions::request::GetRequest,
+    ) -> ApiResult<crate::dto::subscriptions::response::GetResponse> {
+        let subscription_id = request.subscription_id;
+        let x_app_key = request.x_app_key;
+        let x_shopper_id = request.x_shopper_id;
         self.inner
             .call(
                 "GET",
@@ -120,18 +119,17 @@ impl SubscriptionsService {
                 None,
             )
             .await
+            .map(crate::dto::subscriptions::response::GetResponse::from_value)
     }
 
     pub async fn update(
         &self,
-        subscription_id: impl Into<ParamValue>,
-        x_app_key: impl Into<ParamValue>,
-        subscription: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let subscription_id = subscription_id.into();
-        let x_app_key = x_app_key.into();
-        let subscription = subscription.into();
+        request: crate::dto::subscriptions::request::UpdateRequest,
+    ) -> ApiResult<crate::dto::subscriptions::response::UpdateResponse> {
+        let subscription_id = request.subscription_id;
+        let x_app_key = request.x_app_key;
+        let subscription = request.subscription;
+        let x_shopper_id = request.x_shopper_id;
         self.inner
             .call(
                 "PATCH",
@@ -145,5 +143,6 @@ impl SubscriptionsService {
                 Some(subscription),
             )
             .await
+            .map(crate::dto::subscriptions::response::UpdateResponse::from_value)
     }
 }

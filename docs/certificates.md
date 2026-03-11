@@ -1,347 +1,784 @@
-# CertificatesService
+# Certificates Service
 
-SSL certificate purchase, validation, lifecycle, and revocation endpoints.
+Client accessor: `client.certificates()`
 
-## Accessor
+## Method Index
+
+- [`create`](#create): `CreateResponse`
+- [`validate`](#validate): `ValidateResponse`
+- [`get`](#get): `GetResponse`
+- [`list_actions`](#list_actions): `ListActionsResponse`
+- [`resend_email`](#resend_email): `ResendEmailResponse`
+- [`add_alternate_email_address`](#add_alternate_email_address): `AddAlternateEmailAddressResponse`
+- [`resend_email_to_address`](#resend_email_to_address): `ResendEmailToAddressResponse`
+- [`get_email_history`](#get_email_history): `GetEmailHistoryResponse`
+- [`delete_callback`](#delete_callback): `DeleteCallbackResponse`
+- [`get_callback`](#get_callback): `GetCallbackResponse`
+- [`replace_callback`](#replace_callback): `ReplaceCallbackResponse`
+- [`cancel`](#cancel): `CancelResponse`
+- [`download`](#download): `DownloadResponse`
+- [`reissue`](#reissue): `ReissueResponse`
+- [`renew`](#renew): `RenewResponse`
+- [`revoke`](#revoke): `RevokeResponse`
+- [`get_site_seal`](#get_site_seal): `GetSiteSealResponse`
+- [`verify_domain_control`](#verify_domain_control): `VerifyDomainControlResponse`
+- [`get_by_entitlement`](#get_by_entitlement): `GetByEntitlementResponse`
+- [`create_for_entitlement`](#create_for_entitlement): `CreateForEntitlementResponse`
+- [`download_by_entitlement`](#download_by_entitlement): `DownloadByEntitlementResponse`
+- [`list_customer_certificates`](#list_customer_certificates): `ListCustomerCertificatesResponse`
+- [`get_customer_certificate`](#get_customer_certificate): `GetCustomerCertificateResponse`
+- [`list_domain_verifications`](#list_domain_verifications): `ListDomainVerificationsResponse`
+- [`get_domain_verification_details`](#get_domain_verification_details): `GetDomainVerificationDetailsResponse`
+- [`get_acme_external_account_binding`](#get_acme_external_account_binding): `GetAcmeExternalAccountBindingResponse`
+- [`search_subscriptions_by_domain`](#search_subscriptions_by_domain): `SearchSubscriptionsByDomainResponse`
+- [`list_subscription_certificates`](#list_subscription_certificates): `ListSubscriptionCertificatesResponse`
+
+## Methods
+
+### create
+
+Returns: `CreateResponse`
+
+Request code:
 
 ```rust
-let service = client.certificates();
+use godaddy_rust::dto::certificates::request::CreateRequest;
+
+let request = CreateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().create(request).await?;
 ```
 
-## Endpoints
-
-### certificate_create
-
-Calls `POST /v1/certificates`.
-
-```rust
-let response = client.certificates().certificate_create(json!({"sample": true}).into(), Some("header-value".into())).await?;
-```
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_validate
+### validate
 
-Calls `POST /v1/certificates/validate`.
+Returns: `ValidateResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_validate(json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::certificates::request::ValidateRequest;
+
+let request = ValidateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().validate(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "valid": false,
+  "issues": [
+    {
+      "path": "dnsNames[0]",
+      "message": "SAN entry is invalid"
+    }
+  ]
+}
 ```
 
-### certificate_get
+### get
 
-Calls `GET /v1/certificates/{certificateId}`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_get("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_action_retrieve
+### list_actions
 
-Calls `GET /v1/certificates/{certificateId}/actions`.
+Returns: `ListActionsResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_action_retrieve("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::ListActionsRequest;
+
+let request = ListActionsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().list_actions(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "ISSUED",
+  "commonName": "example.com",
+  "expires": "2027-03-11T00:00:00Z"
+}
 ```
 
-### certificate_resend_email
+### resend_email
 
-Calls `POST /v1/certificates/{certificateId}/email/{emailId}/resend`.
+Returns: `ResendEmailResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_resend_email("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::certificates::request::ResendEmailRequest;
+
+let request = ResendEmailRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().resend_email(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_alternate_email_address
+### add_alternate_email_address
 
-Calls `POST /v1/certificates/{certificateId}/email/resend/{emailAddress}`.
+Returns: `AddAlternateEmailAddressResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_alternate_email_address("sample".into(), vec!["sample"].into()).await?;
+use godaddy_rust::dto::certificates::request::AddAlternateEmailAddressRequest;
+
+let request = AddAlternateEmailAddressRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().add_alternate_email_address(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_resend_email_address
+### resend_email_to_address
 
-Calls `POST /v1/certificates/{certificateId}/email/{emailId}/resend/{emailAddress}`.
+Returns: `ResendEmailToAddressResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_resend_email_address("sample".into(), "sample".into(), vec!["sample"].into()).await?;
+use godaddy_rust::dto::certificates::request::ResendEmailToAddressRequest;
+
+let request = ResendEmailToAddressRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().resend_email_to_address(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_email_history
+### get_email_history
 
-Calls `GET /v1/certificates/{certificateId}/email/history`.
+Returns: `GetEmailHistoryResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_email_history("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetEmailHistoryRequest;
+
+let request = GetEmailHistoryRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_email_history(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "history": [
+    {
+      "emailId": "mail_1",
+      "emailAddress": "admin@example.com",
+      "status": "SENT",
+      "createdAt": "2026-03-11T12:00:00Z"
+    }
+  ]
+}
 ```
 
-### certificate_callback_delete
+### delete_callback
 
-Calls `DELETE /v1/certificates/{certificateId}/callback`.
+Returns: `DeleteCallbackResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_callback_delete("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::DeleteCallbackRequest;
+
+let request = DeleteCallbackRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().delete_callback(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "callbackUrl": "https://example.com/callback",
+  "enabled": true
+}
 ```
 
-### certificate_callback_get
+### get_callback
 
-Calls `GET /v1/certificates/{certificateId}/callback`.
+Returns: `GetCallbackResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_callback_get("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetCallbackRequest;
+
+let request = GetCallbackRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_callback(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "callbackUrl": "https://example.com/callback",
+  "enabled": true
+}
 ```
 
-### certificate_callback_replace
+### replace_callback
 
-Calls `PUT /v1/certificates/{certificateId}/callback`.
+Returns: `ReplaceCallbackResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_callback_replace("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::certificates::request::ReplaceCallbackRequest;
+
+let request = ReplaceCallbackRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().replace_callback(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "callbackUrl": "https://example.com/callback",
+  "enabled": true
+}
 ```
 
-### certificate_cancel
+### cancel
 
-Calls `POST /v1/certificates/{certificateId}/cancel`.
+Returns: `CancelResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_cancel("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::CancelRequest;
+
+let request = CancelRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().cancel(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_download
+### download
 
-Calls `GET /v1/certificates/{certificateId}/download`.
+Returns: `DownloadResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_download("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::DownloadRequest;
+
+let request = DownloadRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().download(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificate": "-----BEGIN CERTIFICATE-----...",
+  "privateKey": "-----BEGIN PRIVATE KEY-----...",
+  "caBundle": "-----BEGIN CERTIFICATE-----..."
+}
 ```
 
-### certificate_reissue
+### reissue
 
-Calls `POST /v1/certificates/{certificateId}/reissue`.
+Returns: `ReissueResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_reissue("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::certificates::request::ReissueRequest;
+
+let request = ReissueRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().reissue(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_renew
+### renew
 
-Calls `POST /v1/certificates/{certificateId}/renew`.
+Returns: `RenewResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_renew("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::certificates::request::RenewRequest;
+
+let request = RenewRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().renew(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_revoke
+### revoke
 
-Calls `POST /v1/certificates/{certificateId}/revoke`.
+Returns: `RevokeResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_revoke("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::certificates::request::RevokeRequest;
+
+let request = RevokeRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().revoke(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_siteseal_get
+### get_site_seal
 
-Calls `GET /v1/certificates/{certificateId}/siteSeal`.
+Returns: `GetSiteSealResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_siteseal_get("sample".into(), Some("sample".into()), Some("sample".into())).await?;
+use godaddy_rust::dto::certificates::request::GetSiteSealRequest;
+
+let request = GetSiteSealRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_site_seal(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "html": "<div>Site Seal</div>"
+}
 ```
 
-### certificate_verifydomaincontrol
+### verify_domain_control
 
-Calls `POST /v1/certificates/{certificateId}/verifyDomainControl`.
+Returns: `VerifyDomainControlResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_verifydomaincontrol("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::VerifyDomainControlRequest;
+
+let request = VerifyDomainControlRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().verify_domain_control(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_get_entitlement
+### get_by_entitlement
 
-Calls `GET /v2/certificates`.
+Returns: `GetByEntitlementResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_get_entitlement("sample".into(), Some(true.into())).await?;
+use godaddy_rust::dto::certificates::request::GetByEntitlementRequest;
+
+let request = GetByEntitlementRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_by_entitlement(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123456",
+      "commonName": "example.com",
+      "status": "ISSUED",
+      "expires": "2027-03-11T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
-### certificate_create_v2
+### create_for_entitlement
 
-Calls `POST /v2/certificates`.
+Returns: `CreateForEntitlementResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_create_v2(json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::certificates::request::CreateForEntitlementRequest;
+
+let request = CreateForEntitlementRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().create_for_entitlement(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### certificate_download_entitlement
+### download_by_entitlement
 
-Calls `GET /v2/certificates/download`.
+Returns: `DownloadByEntitlementResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().certificate_download_entitlement("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::DownloadByEntitlementRequest;
+
+let request = DownloadByEntitlementRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().download_by_entitlement(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificate": "-----BEGIN CERTIFICATE-----...",
+  "privateKey": "-----BEGIN PRIVATE KEY-----...",
+  "caBundle": "-----BEGIN CERTIFICATE-----..."
+}
 ```
 
-### get_customer_certificates_by_customer_id
+### list_customer_certificates
 
-Calls `GET /v2/customers/{customerId}/certificates`.
+Returns: `ListCustomerCertificatesResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().get_customer_certificates_by_customer_id("sample".into(), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::certificates::request::ListCustomerCertificatesRequest;
+
+let request = ListCustomerCertificatesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().list_customer_certificates(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123456",
+      "commonName": "example.com",
+      "status": "ISSUED",
+      "expires": "2027-03-11T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
-### get_certificate_detail_by_cert_identifier
+### get_customer_certificate
 
-Calls `GET /v2/customers/{customerId}/certificates/{certificateId}`.
+Returns: `GetCustomerCertificateResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().get_certificate_detail_by_cert_identifier("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetCustomerCertificateRequest;
+
+let request = GetCustomerCertificateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_customer_certificate(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificateId": "crt_123456",
+  "status": "PENDING_ISSUANCE"
+}
 ```
 
-### get_domain_information_by_certificate_id
+### list_domain_verifications
 
-Calls `GET /v2/customers/{customerId}/certificates/{certificateId}/domainVerifications`.
+Returns: `ListDomainVerificationsResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().get_domain_information_by_certificate_id("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::certificates::request::ListDomainVerificationsRequest;
+
+let request = ListDomainVerificationsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().list_domain_verifications(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123456",
+      "commonName": "example.com",
+      "status": "ISSUED",
+      "expires": "2027-03-11T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
-### get_domain_details_by_domain
+### get_domain_verification_details
 
-Calls `GET /v2/customers/{customerId}/certificates/{certificateId}/domainVerifications/{domain}`.
+Returns: `GetDomainVerificationDetailsResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().get_domain_details_by_domain("sample".into(), "sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetDomainVerificationDetailsRequest;
+
+let request = GetDomainVerificationDetailsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_domain_verification_details(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "domain": "example.com",
+  "method": "DNS",
+  "status": "PENDING",
+  "token": "_acme-challenge",
+  "value": "token-value"
+}
 ```
 
 ### get_acme_external_account_binding
 
-Calls `GET /v2/customers/{customerId}/certificates/acme/externalAccountBinding`.
+Returns: `GetAcmeExternalAccountBindingResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().get_acme_external_account_binding("sample".into()).await?;
+use godaddy_rust::dto::certificates::request::GetAcmeExternalAccountBindingRequest;
+
+let request = GetAcmeExternalAccountBindingRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().get_acme_external_account_binding(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "kid": "kid_123",
+  "hmacKey": "hmac_abc"
+}
 ```
 
-### retrieve_ssl_by_domain_reseller
+### search_subscriptions_by_domain
 
-Calls `GET /v2/certificates/subscriptions/search`.
+Returns: `SearchSubscriptionsByDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().retrieve_ssl_by_domain_reseller(Some(1_i64.into()), Some(1_i64.into()), Some("sample".into()), Some(vec!["sample"].into()), Some("sample".into()), Some("sample".into())).await?;
+use godaddy_rust::dto::certificates::request::SearchSubscriptionsByDomainRequest;
+
+let request = SearchSubscriptionsByDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().search_subscriptions_by_domain(request).await?;
 ```
+
+Response JSON example:
 
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123456",
+      "commonName": "example.com",
+      "status": "ISSUED",
+      "expires": "2027-03-11T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
 
-### retrieve_ssl_by_domain_subscription_reseller
+### list_subscription_certificates
 
-Calls `GET /v2/certificates/subscription/{guid}`.
+Returns: `ListSubscriptionCertificatesResponse`
+
+Request code:
 
 ```rust
-let response = client.certificates().retrieve_ssl_by_domain_subscription_reseller("sample".into(), Some(1_i64.into()), Some(1_i64.into()), Some("sample".into()), Some(vec!["sample"].into()), Some("sample".into()), Some("sample".into())).await?;
+use godaddy_rust::dto::certificates::request::ListSubscriptionCertificatesRequest;
+
+let request = ListSubscriptionCertificatesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.certificates().list_subscription_certificates(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "certificates": [
+    {
+      "certificateId": "crt_123456",
+      "commonName": "example.com",
+      "status": "ISSUED",
+      "expires": "2027-03-11T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 25
+  }
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for certificates endpoints.

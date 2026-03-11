@@ -1,23 +1,40 @@
-# AuctionsService
+# Auctions Service
 
-Auction listing discovery endpoints for GoDaddy Auctions inventory.
+Client accessor: `client.auctions()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.auctions();
-```
+- [`place_bids`](#place_bids): `PlaceBidsResponse`
 
-## Endpoints
+## Methods
 
 ### place_bids
 
-Calls `POST /v1/customers/{customerId}/aftermarket/listings/bids`.
+Returns: `PlaceBidsResponse`
+
+Request code:
 
 ```rust
-let response = client.auctions().place_bids("sample".into(), json!({"sample": true}).into()).await?;
+use godaddy_rust::dto::auctions::request::PlaceBidsRequest;
+
+let request = PlaceBidsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.auctions().place_bids(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "listingId": 200000,
+  "bidId": "bid_001",
+  "bidAmountUsd": 1500,
+  "status": "ACTIVE",
+  "isHighestBidder": true
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for auctions endpoints.

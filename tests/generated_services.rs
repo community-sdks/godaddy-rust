@@ -23,7 +23,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .abuse()
-        .get_tickets(
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
             Some("sample".into()),
             Some(true.into()),
             Some("sample".into()),
@@ -32,7 +32,7 @@ async fn every_service_method_builds_a_request() {
             Some("sample".into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -47,7 +47,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .abuse()
-        .create_ticket(json!({"sample": true}))
+        .create_ticket(godaddy_rust::dto::abuse::request::CreateTicketRequest::new(
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -60,7 +62,11 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.abuse().get_ticket_info("sample").await.unwrap();
+    client
+        .abuse()
+        .get_ticket_info(godaddy_rust::dto::abuse::request::GetTicketInfoRequest::new("sample"))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -73,7 +79,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .abuse()
-        .get_tickets_v2(
+        .get_tickets_v2(godaddy_rust::dto::abuse::request::GetTicketsV2Request::new(
             Some("sample".into()),
             Some(true.into()),
             Some("sample".into()),
@@ -82,7 +88,7 @@ async fn every_service_method_builds_a_request() {
             Some("sample".into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -97,7 +103,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .abuse()
-        .create_ticket_v2(json!({"sample": true}))
+        .create_ticket_v2(
+            godaddy_rust::dto::abuse::request::CreateTicketV2Request::new(json!({"sample": true})),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -110,7 +118,13 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.abuse().get_ticket_info_v2("sample").await.unwrap();
+    client
+        .abuse()
+        .get_ticket_info_v2(
+            godaddy_rust::dto::abuse::request::GetTicketInfoV2Request::new("sample"),
+        )
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -124,13 +138,15 @@ async fn every_service_method_builds_a_request() {
     client
         .aftermarket()
         .get_listings(
-            "sample",
-            Some(vec!["sample"].into()),
-            Some(vec!["sample"].into()),
-            Some("sample".into()),
-            Some("sample".into()),
-            Some(1_i64.into()),
-            Some(1_i64.into()),
+            godaddy_rust::dto::aftermarket::request::GetListingsRequest::new(
+                "sample",
+                Some(vec!["sample"].into()),
+                Some(vec!["sample"].into()),
+                Some("sample".into()),
+                Some("sample".into()),
+                Some(1_i64.into()),
+                Some(1_i64.into()),
+            ),
         )
         .await
         .unwrap();
@@ -146,7 +162,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .aftermarket()
-        .delete_listings(vec!["sample"])
+        .delete_listings(
+            godaddy_rust::dto::aftermarket::request::DeleteListingsRequest::new(vec!["sample"]),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -161,7 +179,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .aftermarket()
-        .add_expiry_listings(vec!["sample"])
+        .add_expiry_listings(
+            godaddy_rust::dto::aftermarket::request::AddExpiryListingsRequest::new(vec!["sample"]),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -179,11 +199,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .agreements()
-        .get(
+        .get(godaddy_rust::dto::agreements::request::GetRequest::new(
             vec!["sample"],
             Some("header-value".into()),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -198,14 +218,14 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .search_ans_name(
+        .search_ans_name(godaddy_rust::dto::ans::request::SearchAnsNameRequest::new(
             Some("sample".into()),
             Some("sample".into()),
             Some("sample".into()),
             Some("sample".into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -220,7 +240,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .register_agent(json!({"sample": true}))
+        .register_agent(godaddy_rust::dto::ans::request::RegisterAgentRequest::new(
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -235,7 +257,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .resolve_ans_name(json!({"sample": true}))
+        .resolve_ans_name(godaddy_rust::dto::ans::request::ResolveAnsNameRequest::new(
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -248,7 +272,13 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.ans().get_agent("sample").await.unwrap();
+    client
+        .ans()
+        .get_agent(godaddy_rust::dto::ans::request::GetAgentRequest::new(
+            "sample",
+        ))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -259,7 +289,13 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.ans().validate_registration("sample").await.unwrap();
+    client
+        .ans()
+        .validate_registration(
+            godaddy_rust::dto::ans::request::ValidateRegistrationRequest::new("sample"),
+        )
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "POST");
     assert_eq!(
@@ -270,7 +306,11 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.ans().verify_dns_records("sample").await.unwrap();
+    client
+        .ans()
+        .verify_dns_records(godaddy_rust::dto::ans::request::VerifyDnsRecordsRequest::new("sample"))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "POST");
     assert_eq!(
@@ -283,7 +323,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .get_agent_identity_certificate_by_agent_id("sample")
+        .get_agent_identity_certificate_by_agent_id(
+            godaddy_rust::dto::ans::request::GetAgentIdentityCertificateByAgentIdRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -301,7 +345,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .submit_agent_identity_csr_by_agent_id("sample", json!({"sample": true}))
+        .submit_agent_identity_csr_by_agent_id(
+            godaddy_rust::dto::ans::request::SubmitAgentIdentityCsrByAgentIdRequest::new(
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -319,7 +368,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .get_agent_server_certificate_by_agent_id("sample")
+        .get_agent_server_certificate_by_agent_id(
+            godaddy_rust::dto::ans::request::GetAgentServerCertificateByAgentIdRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -337,7 +390,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .submit_agent_server_csr_by_agent_id("sample", json!({"sample": true}))
+        .submit_agent_server_csr_by_agent_id(
+            godaddy_rust::dto::ans::request::SubmitAgentServerCsrByAgentIdRequest::new(
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -355,7 +413,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .get_agent_csr_status_by_agent_id("sample", "sample")
+        .get_agent_csr_status_by_agent_id(
+            godaddy_rust::dto::ans::request::GetAgentCsrStatusByAgentIdRequest::new(
+                "sample", "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -373,12 +435,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .ans()
-        .get_agent_events(
+        .get_agent_events(godaddy_rust::dto::ans::request::GetAgentEventsRequest::new(
             Some("header-value".into()),
             Some("sample".into()),
             Some("sample".into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -393,7 +455,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .auctions()
-        .place_bids("sample", json!({"sample": true}))
+        .place_bids(godaddy_rust::dto::auctions::request::PlaceBidsRequest::new(
+            "sample",
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -408,7 +473,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_create(json!({"sample": true}), Some("header-value".into()))
+        .certificate_create(
+            godaddy_rust::dto::certificates::request::CertificateCreateRequest::new(
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -426,7 +496,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_validate(json!({"sample": true}), Some("header-value".into()))
+        .certificate_validate(
+            godaddy_rust::dto::certificates::request::CertificateValidateRequest::new(
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -444,7 +519,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_get("sample")
+        .certificate_get(
+            godaddy_rust::dto::certificates::request::CertificateGetRequest::new("sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -459,7 +536,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_action_retrieve("sample")
+        .certificate_action_retrieve(
+            godaddy_rust::dto::certificates::request::CertificateActionRetrieveRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -477,7 +558,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_resend_email("sample", "sample")
+        .certificate_resend_email(
+            godaddy_rust::dto::certificates::request::CertificateResendEmailRequest::new(
+                "sample", "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -495,7 +580,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_alternate_email_address("sample", vec!["sample"])
+        .certificate_alternate_email_address(
+            godaddy_rust::dto::certificates::request::CertificateAlternateEmailAddressRequest::new(
+                "sample",
+                vec!["sample"],
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -513,7 +603,13 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_resend_email_address("sample", "sample", vec!["sample"])
+        .certificate_resend_email_address(
+            godaddy_rust::dto::certificates::request::CertificateResendEmailAddressRequest::new(
+                "sample",
+                "sample",
+                vec!["sample"],
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -531,7 +627,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_email_history("sample")
+        .certificate_email_history(
+            godaddy_rust::dto::certificates::request::CertificateEmailHistoryRequest::new("sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -549,7 +647,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_callback_delete("sample")
+        .certificate_callback_delete(
+            godaddy_rust::dto::certificates::request::CertificateCallbackDeleteRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -567,7 +669,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_callback_get("sample")
+        .certificate_callback_get(
+            godaddy_rust::dto::certificates::request::CertificateCallbackGetRequest::new("sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -585,7 +689,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_callback_replace("sample", "sample")
+        .certificate_callback_replace(
+            godaddy_rust::dto::certificates::request::CertificateCallbackReplaceRequest::new(
+                "sample", "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -603,7 +711,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_cancel("sample")
+        .certificate_cancel(
+            godaddy_rust::dto::certificates::request::CertificateCancelRequest::new("sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -621,7 +731,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_download("sample")
+        .certificate_download(
+            godaddy_rust::dto::certificates::request::CertificateDownloadRequest::new("sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -639,7 +751,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_reissue("sample", json!({"sample": true}))
+        .certificate_reissue(
+            godaddy_rust::dto::certificates::request::CertificateReissueRequest::new(
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -657,7 +774,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_renew("sample", json!({"sample": true}))
+        .certificate_renew(
+            godaddy_rust::dto::certificates::request::CertificateRenewRequest::new(
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -672,7 +794,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_revoke("sample", json!({"sample": true}))
+        .certificate_revoke(
+            godaddy_rust::dto::certificates::request::CertificateRevokeRequest::new(
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -690,7 +817,13 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_siteseal_get("sample", Some("sample".into()), Some("sample".into()))
+        .certificate_siteseal_get(
+            godaddy_rust::dto::certificates::request::CertificateSitesealGetRequest::new(
+                "sample",
+                Some("sample".into()),
+                Some("sample".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -708,7 +841,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_verifydomaincontrol("sample")
+        .certificate_verifydomaincontrol(
+            godaddy_rust::dto::certificates::request::CertificateVerifydomaincontrolRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -726,7 +863,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_get_entitlement("sample", Some(true.into()))
+        .certificate_get_entitlement(
+            godaddy_rust::dto::certificates::request::CertificateGetEntitlementRequest::new(
+                "sample",
+                Some(true.into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -744,7 +886,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_create_v2(json!({"sample": true}), Some("header-value".into()))
+        .certificate_create_v2(
+            godaddy_rust::dto::certificates::request::CertificateCreateV2Request::new(
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -762,7 +909,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .certificate_download_entitlement("sample")
+        .certificate_download_entitlement(
+            godaddy_rust::dto::certificates::request::CertificateDownloadEntitlementRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -780,7 +931,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .get_customer_certificates_by_customer_id("sample", Some(1_i64.into()), Some(1_i64.into()))
+        .get_customer_certificates_by_customer_id(godaddy_rust::dto::certificates::request::GetCustomerCertificatesByCustomerIdRequest::new(
+            "sample", Some(1_i64.into()), Some(1_i64.into())
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -798,7 +951,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .get_certificate_detail_by_cert_identifier("sample", "sample")
+        .get_certificate_detail_by_cert_identifier(godaddy_rust::dto::certificates::request::GetCertificateDetailByCertIdentifierRequest::new(
+            "sample", "sample"
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -816,7 +971,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .get_domain_information_by_certificate_id("sample", "sample")
+        .get_domain_information_by_certificate_id(godaddy_rust::dto::certificates::request::GetDomainInformationByCertificateIdRequest::new(
+            "sample", "sample"
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -834,7 +991,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .get_domain_details_by_domain("sample", "sample", "sample")
+        .get_domain_details_by_domain(
+            godaddy_rust::dto::certificates::request::GetDomainDetailsByDomainRequest::new(
+                "sample", "sample", "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -852,7 +1013,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .get_acme_external_account_binding("sample")
+        .get_acme_external_account_binding(
+            godaddy_rust::dto::certificates::request::GetAcmeExternalAccountBindingRequest::new(
+                "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -871,12 +1036,14 @@ async fn every_service_method_builds_a_request() {
     client
         .certificates()
         .retrieve_ssl_by_domain_reseller(
-            Some(1_i64.into()),
-            Some(1_i64.into()),
-            Some("sample".into()),
-            Some(vec!["sample"].into()),
-            Some("sample".into()),
-            Some("sample".into()),
+            godaddy_rust::dto::certificates::request::RetrieveSslByDomainResellerRequest::new(
+                Some(1_i64.into()),
+                Some(1_i64.into()),
+                Some("sample".into()),
+                Some(vec!["sample"].into()),
+                Some("sample".into()),
+                Some("sample".into()),
+            ),
         )
         .await
         .unwrap();
@@ -895,7 +1062,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .certificates()
-        .retrieve_ssl_by_domain_subscription_reseller(
+        .retrieve_ssl_by_domain_subscription_reseller(godaddy_rust::dto::certificates::request::RetrieveSslByDomainSubscriptionResellerRequest::new(
             "sample",
             Some(1_i64.into()),
             Some(1_i64.into()),
@@ -903,7 +1070,7 @@ async fn every_service_method_builds_a_request() {
             Some(vec!["sample"].into()),
             Some("sample".into()),
             Some("sample".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -919,7 +1086,11 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.countries().get_countries("sample").await.unwrap();
+    client
+        .countries()
+        .get_countries(godaddy_rust::dto::countries::request::GetCountriesRequest::new("sample"))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -932,7 +1103,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .countries()
-        .get_country("sample", "sample")
+        .get_country(
+            godaddy_rust::dto::countries::request::GetCountryRequest::new("sample", "sample"),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -947,7 +1120,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .list(
+        .list(godaddy_rust::dto::domains::request::ListRequest::new(
             Some("header-value".into()),
             Some(vec!["sample"].into()),
             Some(vec!["sample"].into()),
@@ -955,7 +1128,7 @@ async fn every_service_method_builds_a_request() {
             Some("sample".into()),
             Some(vec!["sample"].into()),
             Some("sample".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -971,10 +1144,12 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .get_agreement(
-            vec!["sample"],
-            true,
-            Some("header-value".into()),
-            Some(true.into()),
+            godaddy_rust::dto::domains::request::GetAgreementRequest::new(
+                vec!["sample"],
+                true,
+                Some("header-value".into()),
+                Some(true.into()),
+            ),
         )
         .await
         .unwrap();
@@ -990,7 +1165,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .available("sample", Some("sample".into()), Some(true.into()))
+        .available(godaddy_rust::dto::domains::request::AvailableRequest::new(
+            "sample",
+            Some("sample".into()),
+            Some(true.into()),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1005,7 +1184,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .available_bulk(vec!["sample"], Some("sample".into()))
+        .available_bulk(
+            godaddy_rust::dto::domains::request::AvailableBulkRequest::new(
+                vec!["sample"],
+                Some("sample".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1021,9 +1205,11 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .contacts_validate(
-            json!({"sample": true}),
-            Some("header-value".into()),
-            Some("sample".into()),
+            godaddy_rust::dto::domains::request::ContactsValidateRequest::new(
+                json!({"sample": true}),
+                Some("header-value".into()),
+                Some("sample".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1039,7 +1225,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .purchase(json!({"sample": true}), Some("header-value".into()))
+        .purchase(godaddy_rust::dto::domains::request::PurchaseRequest::new(
+            json!({"sample": true}),
+            Some("header-value".into()),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1052,7 +1241,13 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.domains().schema("sample").await.unwrap();
+    client
+        .domains()
+        .schema(godaddy_rust::dto::domains::request::SchemaRequest::new(
+            "sample",
+        ))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -1065,7 +1260,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .validate(json!({"sample": true}))
+        .validate(godaddy_rust::dto::domains::request::ValidateRequest::new(
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1080,7 +1277,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .suggest(
+        .suggest(godaddy_rust::dto::domains::request::SuggestRequest::new(
             Some("header-value".into()),
             Some("sample".into()),
             Some("sample".into()),
@@ -1091,7 +1288,7 @@ async fn every_service_method_builds_a_request() {
             Some(1_i64.into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1104,7 +1301,11 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.domains().tlds().await.unwrap();
+    client
+        .domains()
+        .tlds(godaddy_rust::dto::domains::request::TldsRequest::new())
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "GET");
     assert_eq!(
@@ -1115,7 +1316,13 @@ async fn every_service_method_builds_a_request() {
 
     transport.push_response(Response::json(200, "{}"));
     let before = transport.request_count();
-    client.domains().cancel("sample").await.unwrap();
+    client
+        .domains()
+        .cancel(godaddy_rust::dto::domains::request::CancelRequest::new(
+            "sample",
+        ))
+        .await
+        .unwrap();
     let request = transport.request_at(before).expect("request recorded");
     assert_eq!(request.method, "DELETE");
     assert_eq!(
@@ -1128,7 +1335,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get("sample", Some("header-value".into()))
+        .get(godaddy_rust::dto::domains::request::GetRequest::new(
+            "sample",
+            Some("header-value".into()),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1143,11 +1353,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .update(
+        .update(godaddy_rust::dto::domains::request::UpdateRequest::new(
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1163,9 +1373,11 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .update_contacts(
-            "sample",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::domains::request::UpdateContactsRequest::new(
+                "sample",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1181,7 +1393,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .cancel_privacy("sample", Some("header-value".into()))
+        .cancel_privacy(
+            godaddy_rust::dto::domains::request::CancelPrivacyRequest::new(
+                "sample",
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1197,9 +1414,11 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .purchase_privacy(
-            "sample",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::domains::request::PurchasePrivacyRequest::new(
+                "sample",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1215,11 +1434,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .record_add(
+        .record_add(godaddy_rust::dto::domains::request::RecordAddRequest::new(
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1235,9 +1454,11 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .record_replace(
-            "sample",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::domains::request::RecordReplaceRequest::new(
+                "sample",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1253,14 +1474,14 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .record_get(
+        .record_get(godaddy_rust::dto::domains::request::RecordGetRequest::new(
             "sample",
             "sample",
             "sample",
             Some("header-value".into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1276,11 +1497,13 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .record_replace_type_name(
-            "sample",
-            "sample",
-            "sample",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::domains::request::RecordReplaceTypeNameRequest::new(
+                "sample",
+                "sample",
+                "sample",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1299,7 +1522,14 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .record_delete_type_name("sample", "sample", "sample", Some("header-value".into()))
+        .record_delete_type_name(
+            godaddy_rust::dto::domains::request::RecordDeleteTypeNameRequest::new(
+                "sample",
+                "sample",
+                "sample",
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1318,10 +1548,12 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .record_replace_type(
-            "sample",
-            "sample",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::domains::request::RecordReplaceTypeRequest::new(
+                "sample",
+                "sample",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -1337,11 +1569,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .renew(
+        .renew(godaddy_rust::dto::domains::request::RenewRequest::new(
             "sample",
             Some("header-value".into()),
             Some(json!({"sample": true}).into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1356,11 +1588,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .transfer_in(
+        .transfer_in(godaddy_rust::dto::domains::request::TransferInRequest::new(
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1375,7 +1607,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .verify_email("sample", Some("header-value".into()))
+        .verify_email(
+            godaddy_rust::dto::domains::request::VerifyEmailRequest::new(
+                "sample",
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1391,10 +1628,12 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .get_v2_customers_customer_id_domains_domain(
-            "sample",
-            "sample",
-            Some("header-value".into()),
-            Some(vec!["sample"].into()),
+            godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainRequest::new(
+                "sample",
+                "sample",
+                Some("header-value".into()),
+                Some(vec!["sample"].into()),
+            ),
         )
         .await
         .unwrap();
@@ -1413,11 +1652,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .delete_v2_customers_customer_id_domains_domain_change_of_registrant(
+        .delete_v2_customers_customer_id_domains_domain_change_of_registrant(godaddy_rust::dto::domains::request::DeleteV2CustomersCustomerIdDomainsDomainChangeOfRegistrantRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1435,11 +1674,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_domain_change_of_registrant(
+        .get_v2_customers_customer_id_domains_domain_change_of_registrant(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainChangeOfRegistrantRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1457,12 +1696,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .patch_v2_customers_customer_id_domains_domain_dnssec_records(
+        .patch_v2_customers_customer_id_domains_domain_dnssec_records(godaddy_rust::dto::domains::request::PatchV2CustomersCustomerIdDomainsDomainDnssecRecordsRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1480,12 +1719,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .delete_v2_customers_customer_id_domains_domain_dnssec_records(
+        .delete_v2_customers_customer_id_domains_domain_dnssec_records(godaddy_rust::dto::domains::request::DeleteV2CustomersCustomerIdDomainsDomainDnssecRecordsRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1503,12 +1742,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .put_v2_customers_customer_id_domains_domain_name_servers(
+        .put_v2_customers_customer_id_domains_domain_name_servers(godaddy_rust::dto::domains::request::PutV2CustomersCustomerIdDomainsDomainNameServersRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1526,11 +1765,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_domain_privacy_forwarding(
+        .get_v2_customers_customer_id_domains_domain_privacy_forwarding(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainPrivacyForwardingRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1548,12 +1787,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .patch_v2_customers_customer_id_domains_domain_privacy_forwarding(
+        .patch_v2_customers_customer_id_domains_domain_privacy_forwarding(godaddy_rust::dto::domains::request::PatchV2CustomersCustomerIdDomainsDomainPrivacyForwardingRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1571,12 +1810,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_redeem(
+        .post_v2_customers_customer_id_domains_domain_redeem(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainRedeemRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
             Some(json!({"sample": true}).into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1594,12 +1833,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_renew(
+        .post_v2_customers_customer_id_domains_domain_renew(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainRenewRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1617,12 +1856,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer(
+        .post_v2_customers_customer_id_domains_domain_transfer(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1640,11 +1879,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_domain_transfer(
+        .get_v2_customers_customer_id_domains_domain_transfer(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainTransferRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1662,12 +1901,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_validate(
+        .post_v2_customers_customer_id_domains_domain_transfer_validate(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferValidateRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1685,12 +1924,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_in_accept(
+        .post_v2_customers_customer_id_domains_domain_transfer_in_accept(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferInAcceptRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1708,11 +1947,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_in_cancel(
+        .post_v2_customers_customer_id_domains_domain_transfer_in_cancel(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferInCancelRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1730,11 +1969,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_in_restart(
+        .post_v2_customers_customer_id_domains_domain_transfer_in_restart(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferInRestartRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1752,12 +1991,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_in_retry(
+        .post_v2_customers_customer_id_domains_domain_transfer_in_retry(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferInRetryRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1775,12 +2014,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_out(
+        .post_v2_customers_customer_id_domains_domain_transfer_out(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferOutRequest::new(
             "sample",
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1798,11 +2037,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_out_accept(
+        .post_v2_customers_customer_id_domains_domain_transfer_out_accept(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferOutAcceptRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1820,12 +2059,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_transfer_out_reject(
+        .post_v2_customers_customer_id_domains_domain_transfer_out_reject(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainTransferOutRejectRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
             Some("sample".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1843,7 +2082,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .domains_forwards_delete("sample", "sample")
+        .domains_forwards_delete(
+            godaddy_rust::dto::domains::request::DomainsForwardsDeleteRequest::new(
+                "sample", "sample",
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1861,7 +2104,13 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .domains_forwards_get("sample", "sample", Some(true.into()))
+        .domains_forwards_get(
+            godaddy_rust::dto::domains::request::DomainsForwardsGetRequest::new(
+                "sample",
+                "sample",
+                Some(true.into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1876,7 +2125,13 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .domains_forwards_put("sample", "sample", json!({"sample": true}))
+        .domains_forwards_put(
+            godaddy_rust::dto::domains::request::DomainsForwardsPutRequest::new(
+                "sample",
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1891,7 +2146,13 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .domains_forwards_post("sample", "sample", json!({"sample": true}))
+        .domains_forwards_post(
+            godaddy_rust::dto::domains::request::DomainsForwardsPostRequest::new(
+                "sample",
+                "sample",
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1906,11 +2167,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_domain_actions(
+        .get_v2_customers_customer_id_domains_domain_actions(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainActionsRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1928,12 +2189,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .delete_v2_customers_customer_id_domains_domain_actions_type(
+        .delete_v2_customers_customer_id_domains_domain_actions_type(godaddy_rust::dto::domains::request::DeleteV2CustomersCustomerIdDomainsDomainActionsTypeRequest::new(
             "sample",
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1951,12 +2212,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_domain_actions_type(
+        .get_v2_customers_customer_id_domains_domain_actions_type(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsDomainActionsTypeRequest::new(
             "sample",
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1974,7 +2235,9 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_notifications("sample", Some("header-value".into()))
+        .get_v2_customers_customer_id_domains_notifications(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsNotificationsRequest::new(
+            "sample", Some("header-value".into())
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -1992,10 +2255,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_notifications_opt_in(
+        .get_v2_customers_customer_id_domains_notifications_opt_in(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsNotificationsOptInRequest::new(
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2013,11 +2276,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .put_v2_customers_customer_id_domains_notifications_opt_in(
+        .put_v2_customers_customer_id_domains_notifications_opt_in(godaddy_rust::dto::domains::request::PutV2CustomersCustomerIdDomainsNotificationsOptInRequest::new(
             "sample",
             vec!["sample"],
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2035,11 +2298,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_notifications_schemas_type(
+        .get_v2_customers_customer_id_domains_notifications_schemas_type(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsNotificationsSchemasTypeRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2057,11 +2320,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_notifications_notification_id_acknowledge(
+        .post_v2_customers_customer_id_domains_notifications_notification_id_acknowledge(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsNotificationsNotificationIdAcknowledgeRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2079,11 +2342,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_register(
+        .post_v2_customers_customer_id_domains_register(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsRegisterRequest::new(
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2101,11 +2364,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_customers_customer_id_domains_register_schema_tld(
+        .get_v2_customers_customer_id_domains_register_schema_tld(godaddy_rust::dto::domains::request::GetV2CustomersCustomerIdDomainsRegisterSchemaTldRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2123,11 +2386,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_register_validate(
+        .post_v2_customers_customer_id_domains_register_validate(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsRegisterValidateRequest::new(
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2146,11 +2409,13 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .get_v2_domains_maintenances(
-            Some("header-value".into()),
-            Some(vec!["sample"].into()),
-            Some("sample".into()),
-            Some("sample".into()),
-            Some(1_i64.into()),
+            godaddy_rust::dto::domains::request::GetV2DomainsMaintenancesRequest::new(
+                Some("header-value".into()),
+                Some(vec!["sample"].into()),
+                Some("sample".into()),
+                Some("sample".into()),
+                Some(1_i64.into()),
+            ),
         )
         .await
         .unwrap();
@@ -2169,7 +2434,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .get_v2_domains_maintenances_maintenance_id("sample", Some("header-value".into()))
+        .get_v2_domains_maintenances_maintenance_id(
+            godaddy_rust::dto::domains::request::GetV2DomainsMaintenancesMaintenanceIdRequest::new(
+                "sample",
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2188,9 +2458,11 @@ async fn every_service_method_builds_a_request() {
     client
         .domains()
         .get_v2_domains_usage_yyyymm(
-            "sample",
-            Some("header-value".into()),
-            Some(vec!["sample"].into()),
+            godaddy_rust::dto::domains::request::GetV2DomainsUsageYyyymmRequest::new(
+                "sample",
+                Some("header-value".into()),
+                Some(vec!["sample"].into()),
+            ),
         )
         .await
         .unwrap();
@@ -2209,12 +2481,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .patch_v2_customers_customer_id_domains_domain_contacts(
+        .patch_v2_customers_customer_id_domains_domain_contacts(godaddy_rust::dto::domains::request::PatchV2CustomersCustomerIdDomainsDomainContactsRequest::new(
             "sample",
             "sample",
             json!({"sample": true}),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2232,11 +2504,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .domains()
-        .post_v2_customers_customer_id_domains_domain_regenerate_auth_code(
+        .post_v2_customers_customer_id_domains_domain_regenerate_auth_code(godaddy_rust::dto::domains::request::PostV2CustomersCustomerIdDomainsDomainRegenerateAuthCodeRequest::new(
             "sample",
             "sample",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2254,7 +2526,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .orders()
-        .list(
+        .list(godaddy_rust::dto::orders::request::ListRequest::new(
             "header-value",
             Some("sample".into()),
             Some("sample".into()),
@@ -2266,7 +2538,7 @@ async fn every_service_method_builds_a_request() {
             Some(1_i64.into()),
             Some("sample".into()),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2281,12 +2553,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .orders()
-        .get(
+        .get(godaddy_rust::dto::orders::request::GetRequest::new(
             "sample",
             "header-value",
             Some("header-value".into()),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2301,14 +2573,14 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .parking()
-        .get_metrics(
+        .get_metrics(godaddy_rust::dto::parking::request::GetMetricsRequest::new(
             "sample",
             Some("sample".into()),
             Some("sample".into()),
             Some(1_i64.into()),
             Some(1_i64.into()),
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2324,15 +2596,17 @@ async fn every_service_method_builds_a_request() {
     client
         .parking()
         .get_metrics_by_domain(
-            "sample",
-            "sample",
-            "sample",
-            Some(vec!["sample"].into()),
-            Some("sample".into()),
-            Some("sample".into()),
-            Some(1_i64.into()),
-            Some(1_i64.into()),
-            Some("header-value".into()),
+            godaddy_rust::dto::parking::request::GetMetricsByDomainRequest::new(
+                "sample",
+                "sample",
+                "sample",
+                Some(vec!["sample"].into()),
+                Some("sample".into()),
+                Some("sample".into()),
+                Some(1_i64.into()),
+                Some(1_i64.into()),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -2348,7 +2622,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .create_subaccount(json!({"sample": true}))
+        .create_subaccount(
+            godaddy_rust::dto::shoppers::request::CreateSubaccountRequest::new(
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2363,7 +2641,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .get(json!({"sample": true}), Some(vec!["sample"].into()))
+        .get(godaddy_rust::dto::shoppers::request::GetRequest::new(
+            json!({"sample": true}),
+            Some(vec!["sample"].into()),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2378,7 +2659,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .update(json!({"sample": true}), json!({"sample": true}))
+        .update(godaddy_rust::dto::shoppers::request::UpdateRequest::new(
+            json!({"sample": true}),
+            json!({"sample": true}),
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2393,7 +2677,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .delete(json!({"sample": true}), "sample")
+        .delete(godaddy_rust::dto::shoppers::request::DeleteRequest::new(
+            json!({"sample": true}),
+            "sample",
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2408,7 +2695,10 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .get_status(json!({"sample": true}), "sample")
+        .get_status(godaddy_rust::dto::shoppers::request::GetStatusRequest::new(
+            json!({"sample": true}),
+            "sample",
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2423,7 +2713,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .shoppers()
-        .change_password(json!({"sample": true}), json!({"sample": true}))
+        .change_password(
+            godaddy_rust::dto::shoppers::request::ChangePasswordRequest::new(
+                json!({"sample": true}),
+                json!({"sample": true}),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2438,7 +2733,7 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .subscriptions()
-        .list(
+        .list(godaddy_rust::dto::subscriptions::request::ListRequest::new(
             "header-value",
             Some("header-value".into()),
             Some("header-value".into()),
@@ -2447,7 +2742,7 @@ async fn every_service_method_builds_a_request() {
             Some(1_i64.into()),
             Some(1_i64.into()),
             Some("sample".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2462,7 +2757,12 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .subscriptions()
-        .product_groups("header-value", Some("header-value".into()))
+        .product_groups(
+            godaddy_rust::dto::subscriptions::request::ProductGroupsRequest::new(
+                "header-value",
+                Some("header-value".into()),
+            ),
+        )
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2478,9 +2778,11 @@ async fn every_service_method_builds_a_request() {
     client
         .subscriptions()
         .cancel(
-            json!({"sample": true}),
-            "header-value",
-            Some("header-value".into()),
+            godaddy_rust::dto::subscriptions::request::CancelRequest::new(
+                json!({"sample": true}),
+                "header-value",
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();
@@ -2496,11 +2798,11 @@ async fn every_service_method_builds_a_request() {
     let before = transport.request_count();
     client
         .subscriptions()
-        .get(
+        .get(godaddy_rust::dto::subscriptions::request::GetRequest::new(
             json!({"sample": true}),
             "header-value",
             Some("header-value".into()),
-        )
+        ))
         .await
         .unwrap();
     let request = transport.request_at(before).expect("request recorded");
@@ -2516,10 +2818,12 @@ async fn every_service_method_builds_a_request() {
     client
         .subscriptions()
         .update(
-            json!({"sample": true}),
-            "header-value",
-            json!({"sample": true}),
-            Some("header-value".into()),
+            godaddy_rust::dto::subscriptions::request::UpdateRequest::new(
+                json!({"sample": true}),
+                "header-value",
+                json!({"sample": true}),
+                Some("header-value".into()),
+            ),
         )
         .await
         .unwrap();

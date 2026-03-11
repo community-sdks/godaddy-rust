@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,19 +21,19 @@ impl OrdersService {
 
     pub async fn list(
         &self,
-        x_app_key: impl Into<ParamValue>,
-        period_start: Option<ParamValue>,
-        period_end: Option<ParamValue>,
-        domain: Option<ParamValue>,
-        product_group_id: Option<ParamValue>,
-        payment_profile_id: Option<ParamValue>,
-        parent_order_id: Option<ParamValue>,
-        offset: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        sort: Option<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let x_app_key = x_app_key.into();
+        request: crate::dto::orders::request::ListRequest,
+    ) -> ApiResult<crate::dto::orders::response::ListResponse> {
+        let x_app_key = request.x_app_key;
+        let period_start = request.period_start;
+        let period_end = request.period_end;
+        let domain = request.domain;
+        let product_group_id = request.product_group_id;
+        let payment_profile_id = request.payment_profile_id;
+        let parent_order_id = request.parent_order_id;
+        let offset = request.offset;
+        let limit = request.limit;
+        let sort = request.sort;
+        let x_shopper_id = request.x_shopper_id;
         self.inner
             .call(
                 "GET",
@@ -59,17 +57,17 @@ impl OrdersService {
                 None,
             )
             .await
+            .map(crate::dto::orders::response::ListResponse::from_value)
     }
 
     pub async fn get(
         &self,
-        order_id: impl Into<ParamValue>,
-        x_app_key: impl Into<ParamValue>,
-        x_shopper_id: Option<ParamValue>,
-        x_market_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let order_id = order_id.into();
-        let x_app_key = x_app_key.into();
+        request: crate::dto::orders::request::GetRequest,
+    ) -> ApiResult<crate::dto::orders::response::GetResponse> {
+        let order_id = request.order_id;
+        let x_app_key = request.x_app_key;
+        let x_shopper_id = request.x_shopper_id;
+        let x_market_id = request.x_market_id;
         self.inner
             .call(
                 "GET",
@@ -84,5 +82,6 @@ impl OrdersService {
                 None,
             )
             .await
+            .map(crate::dto::orders::response::GetResponse::from_value)
     }
 }

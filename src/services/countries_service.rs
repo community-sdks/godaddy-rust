@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -21,8 +19,11 @@ impl CountriesService {
         }
     }
 
-    pub async fn get_countries(&self, market_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let market_id = market_id.into();
+    pub async fn get_countries(
+        &self,
+        request: crate::dto::countries::request::GetCountriesRequest,
+    ) -> ApiResult<crate::dto::countries::response::GetCountriesResponse> {
+        let market_id = request.market_id;
         self.inner
             .call(
                 "GET",
@@ -33,15 +34,15 @@ impl CountriesService {
                 None,
             )
             .await
+            .map(crate::dto::countries::response::GetCountriesResponse::from_value)
     }
 
     pub async fn get_country(
         &self,
-        country_key: impl Into<ParamValue>,
-        market_id: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let country_key = country_key.into();
-        let market_id = market_id.into();
+        request: crate::dto::countries::request::GetCountryRequest,
+    ) -> ApiResult<crate::dto::countries::response::GetCountryResponse> {
+        let country_key = request.country_key;
+        let market_id = request.market_id;
         self.inner
             .call(
                 "GET",
@@ -52,5 +53,6 @@ impl CountriesService {
                 None,
             )
             .await
+            .map(crate::dto::countries::response::GetCountryResponse::from_value)
     }
 }

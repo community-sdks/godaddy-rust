@@ -19,7 +19,9 @@ async fn maps_400_to_validation() {
     transport.push_response(Response::json(400, "{}"));
     let result = test_client(transport)
         .abuse()
-        .get_tickets(None, None, None, None, None, None, None, None)
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
+            None, None, None, None, None, None, None, None,
+        ))
         .await;
     assert!(matches!(result, Err(ApiError::Validation(_))));
 }
@@ -30,7 +32,9 @@ async fn maps_401_to_unauthorized() {
     transport.push_response(Response::json(401, "{}"));
     let result = test_client(transport)
         .abuse()
-        .get_tickets(None, None, None, None, None, None, None, None)
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
+            None, None, None, None, None, None, None, None,
+        ))
         .await;
     assert!(matches!(result, Err(ApiError::Unauthorized(_))));
 }
@@ -41,7 +45,9 @@ async fn maps_404_to_not_found() {
     transport.push_response(Response::json(404, "{}"));
     let result = test_client(transport)
         .abuse()
-        .get_tickets(None, None, None, None, None, None, None, None)
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
+            None, None, None, None, None, None, None, None,
+        ))
         .await;
     assert!(matches!(result, Err(ApiError::NotFound(_))));
 }
@@ -52,7 +58,9 @@ async fn maps_429_to_rate_limit() {
     transport.push_response(Response::json(429, "{}"));
     let result = test_client(transport)
         .abuse()
-        .get_tickets(None, None, None, None, None, None, None, None)
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
+            None, None, None, None, None, None, None, None,
+        ))
         .await;
     assert!(matches!(result, Err(ApiError::RateLimit(_))));
 }
@@ -63,7 +71,9 @@ async fn maps_500_to_server() {
     transport.push_response(Response::json(500, "{}"));
     let result = test_client(transport)
         .abuse()
-        .get_tickets(None, None, None, None, None, None, None, None)
+        .get_tickets(godaddy_rust::dto::abuse::request::GetTicketsRequest::new(
+            None, None, None, None, None, None, None, None,
+        ))
         .await;
     assert!(matches!(result, Err(ApiError::Server(_))));
 }

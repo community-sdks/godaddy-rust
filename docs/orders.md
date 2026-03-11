@@ -1,35 +1,83 @@
-# OrdersService
+# Orders Service
 
-Order lookup endpoints for commerce and fulfillment status.
+Client accessor: `client.orders()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.orders();
-```
+- [`list`](#list): `ListResponse`
+- [`get`](#get): `GetResponse`
 
-## Endpoints
+## Methods
 
 ### list
 
-Calls `GET /v1/orders`.
+Returns: `ListResponse`
+
+Request code:
 
 ```rust
-let response = client.orders().list("header-value".into(), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into()), Some("sample".into()), Some("header-value".into())).await?;
+use godaddy_rust::dto::orders::request::ListRequest;
+
+let request = ListRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.orders().list(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orders": [
+    {
+      "orderId": "1234567890",
+      "currency": "USD",
+      "createdAt": "2026-03-11T12:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "next": null
+  }
+}
 ```
 
 ### get
 
-Calls `GET /v1/orders/{orderId}`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.orders().get("sample".into(), "header-value".into(), Some("header-value".into()), Some("header-value".into())).await?;
+use godaddy_rust::dto::orders::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.orders().get(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "orderId": "1234567890",
+  "currency": "USD",
+  "createdAt": "2026-03-11T12:00:00Z",
+  "status": "PENDING",
+  "pricing": {
+    "total": "14.99"
+  },
+  "items": [
+    {
+      "itemId": "line-1",
+      "label": "example.com",
+      "status": "PENDING"
+    }
+  ]
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for orders endpoints.

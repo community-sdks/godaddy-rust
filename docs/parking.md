@@ -1,35 +1,86 @@
-# ParkingService
+# Parking Service
 
-Domain parking optimization and template management endpoints.
+Client accessor: `client.parking()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.parking();
-```
+- [`get_metrics`](#get_metrics): `GetMetricsResponse`
+- [`get_metrics_by_domain`](#get_metrics_by_domain): `GetMetricsByDomainResponse`
 
-## Endpoints
+## Methods
 
 ### get_metrics
 
-Calls `GET /v1/customers/{customerId}/parking/metrics`.
+Returns: `GetMetricsResponse`
+
+Request code:
 
 ```rust
-let response = client.parking().get_metrics("sample".into(), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into()), Some("header-value".into())).await?;
+use godaddy_rust::dto::parking::request::GetMetricsRequest;
+
+let request = GetMetricsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.parking().get_metrics(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "currencyId": "USD",
+  "metrics": [
+    {
+      "periodPtz": "2026-03-11",
+      "visitCount": 120,
+      "adClickCount": 14,
+      "revenue": 3450
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "next": null
+  }
+}
 ```
 
 ### get_metrics_by_domain
 
-Calls `GET /v1/customers/{customerId}/parking/metricsByDomain`.
+Returns: `GetMetricsByDomainResponse`
+
+Request code:
 
 ```rust
-let response = client.parking().get_metrics_by_domain("sample".into(), "sample".into(), "sample".into(), Some(vec!["sample"].into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into()), Some("header-value".into())).await?;
+use godaddy_rust::dto::parking::request::GetMetricsByDomainRequest;
+
+let request = GetMetricsByDomainRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.parking().get_metrics_by_domain(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "currencyId": "USD",
+  "startDate": "2026-03-01",
+  "endDate": "2026-03-11",
+  "metrics": [
+    {
+      "domain": "example.com",
+      "visitCount": 120,
+      "pageViewCount": 200,
+      "revenue": 3450
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "next": null
+  }
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for parking endpoints.

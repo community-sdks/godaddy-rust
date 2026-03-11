@@ -1,35 +1,69 @@
-# CountriesService
+# Countries Service
 
-Country and market metadata endpoints used across purchase flows.
+Client accessor: `client.countries()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.countries();
-```
+- [`get_countries`](#get_countries): `GetCountriesResponse`
+- [`get_country`](#get_country): `GetCountryResponse`
 
-## Endpoints
+## Methods
 
 ### get_countries
 
-Calls `GET /v1/countries`.
+Returns: `GetCountriesResponse`
+
+Request code:
 
 ```rust
-let response = client.countries().get_countries("sample".into()).await?;
+use godaddy_rust::dto::countries::request::GetCountriesRequest;
+
+let request = GetCountriesRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.countries().get_countries(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "countryKey": "US",
+  "label": "United States",
+  "callingCode": "1"
+}
 ```
 
 ### get_country
 
-Calls `GET /v1/countries/{countryKey}`.
+Returns: `GetCountryResponse`
+
+Request code:
 
 ```rust
-let response = client.countries().get_country("sample".into(), "sample".into()).await?;
+use godaddy_rust::dto::countries::request::GetCountryRequest;
+
+let request = GetCountryRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.countries().get_country(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "countryKey": "US",
+  "label": "United States",
+  "states": [
+    {
+      "stateKey": "AZ",
+      "label": "Arizona"
+    }
+  ]
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for countries endpoints.

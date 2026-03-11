@@ -1,23 +1,38 @@
-# AgreementsService
+# Agreements Service
 
-Agreement retrieval endpoints for legal terms and consent workflows.
+Client accessor: `client.agreements()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.agreements();
-```
+- [`get`](#get): `GetResponse`
 
-## Endpoints
+## Methods
 
 ### get
 
-Calls `GET /v1/agreements`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.agreements().get(vec!["sample"].into(), Some("header-value".into()), Some("header-value".into())).await?;
+use godaddy_rust::dto::agreements::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.agreements().get(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "agreementKey": "DNRA",
+  "title": "Domain Name Registration Agreement",
+  "url": "https://www.godaddy.com/legal/agreements/domain-registration"
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for agreements endpoints.

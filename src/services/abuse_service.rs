@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,15 +21,16 @@ impl AbuseService {
 
     pub async fn get_tickets(
         &self,
-        type_: Option<ParamValue>,
-        closed: Option<ParamValue>,
-        source_domain_or_ip: Option<ParamValue>,
-        target: Option<ParamValue>,
-        created_start: Option<ParamValue>,
-        created_end: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-    ) -> ApiResult<Value> {
+        request: crate::dto::abuse::request::GetTicketsRequest,
+    ) -> ApiResult<crate::dto::abuse::response::GetTicketsResponse> {
+        let type_ = request.type_;
+        let closed = request.closed;
+        let source_domain_or_ip = request.source_domain_or_ip;
+        let target = request.target;
+        let created_start = request.created_start;
+        let created_end = request.created_end;
+        let limit = request.limit;
+        let offset = request.offset;
         self.inner
             .call(
                 "GET",
@@ -51,10 +50,14 @@ impl AbuseService {
                 None,
             )
             .await
+            .map(crate::dto::abuse::response::GetTicketsResponse::from_value)
     }
 
-    pub async fn create_ticket(&self, body: impl Into<ParamValue>) -> ApiResult<Value> {
-        let body = body.into();
+    pub async fn create_ticket(
+        &self,
+        request: crate::dto::abuse::request::CreateTicketRequest,
+    ) -> ApiResult<crate::dto::abuse::response::CreateTicketResponse> {
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -65,10 +68,14 @@ impl AbuseService {
                 Some(body),
             )
             .await
+            .map(crate::dto::abuse::response::CreateTicketResponse::from_value)
     }
 
-    pub async fn get_ticket_info(&self, ticket_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let ticket_id = ticket_id.into();
+    pub async fn get_ticket_info(
+        &self,
+        request: crate::dto::abuse::request::GetTicketInfoRequest,
+    ) -> ApiResult<crate::dto::abuse::response::GetTicketInfoResponse> {
+        let ticket_id = request.ticket_id;
         self.inner
             .call(
                 "GET",
@@ -79,19 +86,21 @@ impl AbuseService {
                 None,
             )
             .await
+            .map(crate::dto::abuse::response::GetTicketInfoResponse::from_value)
     }
 
     pub async fn get_tickets_v2(
         &self,
-        type_: Option<ParamValue>,
-        closed: Option<ParamValue>,
-        source_domain_or_ip: Option<ParamValue>,
-        target: Option<ParamValue>,
-        created_start: Option<ParamValue>,
-        created_end: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-    ) -> ApiResult<Value> {
+        request: crate::dto::abuse::request::GetTicketsV2Request,
+    ) -> ApiResult<crate::dto::abuse::response::GetTicketsV2Response> {
+        let type_ = request.type_;
+        let closed = request.closed;
+        let source_domain_or_ip = request.source_domain_or_ip;
+        let target = request.target;
+        let created_start = request.created_start;
+        let created_end = request.created_end;
+        let limit = request.limit;
+        let offset = request.offset;
         self.inner
             .call(
                 "GET",
@@ -111,10 +120,14 @@ impl AbuseService {
                 None,
             )
             .await
+            .map(crate::dto::abuse::response::GetTicketsV2Response::from_value)
     }
 
-    pub async fn create_ticket_v2(&self, body: impl Into<ParamValue>) -> ApiResult<Value> {
-        let body = body.into();
+    pub async fn create_ticket_v2(
+        &self,
+        request: crate::dto::abuse::request::CreateTicketV2Request,
+    ) -> ApiResult<crate::dto::abuse::response::CreateTicketV2Response> {
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -125,10 +138,14 @@ impl AbuseService {
                 Some(body),
             )
             .await
+            .map(crate::dto::abuse::response::CreateTicketV2Response::from_value)
     }
 
-    pub async fn get_ticket_info_v2(&self, ticket_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let ticket_id = ticket_id.into();
+    pub async fn get_ticket_info_v2(
+        &self,
+        request: crate::dto::abuse::request::GetTicketInfoV2Request,
+    ) -> ApiResult<crate::dto::abuse::response::GetTicketInfoV2Response> {
+        let ticket_id = request.ticket_id;
         self.inner
             .call(
                 "GET",
@@ -139,5 +156,6 @@ impl AbuseService {
                 None,
             )
             .await
+            .map(crate::dto::abuse::response::GetTicketInfoV2Response::from_value)
     }
 }

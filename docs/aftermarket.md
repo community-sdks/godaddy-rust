@@ -1,47 +1,97 @@
-# AftermarketService
+# Aftermarket Service
 
-Aftermarket listing and sales endpoints for secondary-market domain workflows.
+Client accessor: `client.aftermarket()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.aftermarket();
-```
+- [`get_listings`](#get_listings): `GetListingsResponse`
+- [`delete_listings`](#delete_listings): `DeleteListingsResponse`
+- [`add_expiry_listings`](#add_expiry_listings): `AddExpiryListingsResponse`
 
-## Endpoints
+## Methods
 
 ### get_listings
 
-Calls `GET /v1/customers/{customerId}/auctions/listings`.
+Returns: `GetListingsResponse`
+
+Request code:
 
 ```rust
-let response = client.aftermarket().get_listings("sample".into(), Some(vec!["sample"].into()), Some(vec!["sample"].into()), Some("sample".into()), Some("sample".into()), Some(1_i64.into()), Some(1_i64.into())).await?;
+use godaddy_rust::dto::aftermarket::request::GetListingsRequest;
+
+let request = GetListingsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.aftermarket().get_listings(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "listings": [
+    {
+      "fqdn": "example.com",
+      "listingId": 1001,
+      "listingStatus": "ACTIVE",
+      "price": 2499,
+      "currency": "USD"
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "start": 0,
+    "limit": 20
+  }
+}
 ```
 
 ### delete_listings
 
-Calls `DELETE /v1/aftermarket/listings`.
+Returns: `DeleteListingsResponse`
+
+Request code:
 
 ```rust
-let response = client.aftermarket().delete_listings(vec!["sample"].into()).await?;
+use godaddy_rust::dto::aftermarket::request::DeleteListingsRequest;
+
+let request = DeleteListingsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.aftermarket().delete_listings(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "listingActionId": 900122
+}
 ```
 
 ### add_expiry_listings
 
-Calls `POST /v1/aftermarket/listings/expiry`.
+Returns: `AddExpiryListingsResponse`
+
+Request code:
 
 ```rust
-let response = client.aftermarket().add_expiry_listings(vec!["sample"].into()).await?;
+use godaddy_rust::dto::aftermarket::request::AddExpiryListingsRequest;
+
+let request = AddExpiryListingsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.aftermarket().add_expiry_listings(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "listingActionId": 900122
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for aftermarket endpoints.

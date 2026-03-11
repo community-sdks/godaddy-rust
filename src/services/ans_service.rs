@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,13 +21,14 @@ impl AnsService {
 
     pub async fn search_ans_name(
         &self,
-        agent_display_name: Option<ParamValue>,
-        version: Option<ParamValue>,
-        agent_host: Option<ParamValue>,
-        protocol: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-    ) -> ApiResult<Value> {
+        request: crate::dto::ans::request::SearchAnsNameRequest,
+    ) -> ApiResult<crate::dto::ans::response::SearchAnsNameResponse> {
+        let agent_display_name = request.agent_display_name;
+        let version = request.version;
+        let agent_host = request.agent_host;
+        let protocol = request.protocol;
+        let limit = request.limit;
+        let offset = request.offset;
         self.inner
             .call(
                 "GET",
@@ -47,10 +46,14 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::SearchAnsNameResponse::from_value)
     }
 
-    pub async fn register_agent(&self, body: impl Into<ParamValue>) -> ApiResult<Value> {
-        let body = body.into();
+    pub async fn register_agent(
+        &self,
+        request: crate::dto::ans::request::RegisterAgentRequest,
+    ) -> ApiResult<crate::dto::ans::response::RegisterAgentResponse> {
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -61,10 +64,14 @@ impl AnsService {
                 Some(body),
             )
             .await
+            .map(crate::dto::ans::response::RegisterAgentResponse::from_value)
     }
 
-    pub async fn resolve_ans_name(&self, body: impl Into<ParamValue>) -> ApiResult<Value> {
-        let body = body.into();
+    pub async fn resolve_ans_name(
+        &self,
+        request: crate::dto::ans::request::ResolveAnsNameRequest,
+    ) -> ApiResult<crate::dto::ans::response::ResolveAnsNameResponse> {
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -75,10 +82,14 @@ impl AnsService {
                 Some(body),
             )
             .await
+            .map(crate::dto::ans::response::ResolveAnsNameResponse::from_value)
     }
 
-    pub async fn get_agent(&self, agent_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
+    pub async fn get_agent(
+        &self,
+        request: crate::dto::ans::request::GetAgentRequest,
+    ) -> ApiResult<crate::dto::ans::response::GetAgentResponse> {
+        let agent_id = request.agent_id;
         self.inner
             .call(
                 "GET",
@@ -89,10 +100,14 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::GetAgentResponse::from_value)
     }
 
-    pub async fn validate_registration(&self, agent_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
+    pub async fn validate_registration(
+        &self,
+        request: crate::dto::ans::request::ValidateRegistrationRequest,
+    ) -> ApiResult<crate::dto::ans::response::ValidateRegistrationResponse> {
+        let agent_id = request.agent_id;
         self.inner
             .call(
                 "POST",
@@ -103,10 +118,14 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::ValidateRegistrationResponse::from_value)
     }
 
-    pub async fn verify_dns_records(&self, agent_id: impl Into<ParamValue>) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
+    pub async fn verify_dns_records(
+        &self,
+        request: crate::dto::ans::request::VerifyDnsRecordsRequest,
+    ) -> ApiResult<crate::dto::ans::response::VerifyDnsRecordsResponse> {
+        let agent_id = request.agent_id;
         self.inner
             .call(
                 "POST",
@@ -117,13 +136,14 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::VerifyDnsRecordsResponse::from_value)
     }
 
     pub async fn get_agent_identity_certificate_by_agent_id(
         &self,
-        agent_id: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
+        request: crate::dto::ans::request::GetAgentIdentityCertificateByAgentIdRequest,
+    ) -> ApiResult<crate::dto::ans::response::GetAgentIdentityCertificateByAgentIdResponse> {
+        let agent_id = request.agent_id;
         self.inner
             .call(
                 "GET",
@@ -134,15 +154,17 @@ impl AnsService {
                 None,
             )
             .await
+            .map(
+                crate::dto::ans::response::GetAgentIdentityCertificateByAgentIdResponse::from_value,
+            )
     }
 
     pub async fn submit_agent_identity_csr_by_agent_id(
         &self,
-        agent_id: impl Into<ParamValue>,
-        body: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
-        let body = body.into();
+        request: crate::dto::ans::request::SubmitAgentIdentityCsrByAgentIdRequest,
+    ) -> ApiResult<crate::dto::ans::response::SubmitAgentIdentityCsrByAgentIdResponse> {
+        let agent_id = request.agent_id;
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -153,13 +175,14 @@ impl AnsService {
                 Some(body),
             )
             .await
+            .map(crate::dto::ans::response::SubmitAgentIdentityCsrByAgentIdResponse::from_value)
     }
 
     pub async fn get_agent_server_certificate_by_agent_id(
         &self,
-        agent_id: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
+        request: crate::dto::ans::request::GetAgentServerCertificateByAgentIdRequest,
+    ) -> ApiResult<crate::dto::ans::response::GetAgentServerCertificateByAgentIdResponse> {
+        let agent_id = request.agent_id;
         self.inner
             .call(
                 "GET",
@@ -170,15 +193,15 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::GetAgentServerCertificateByAgentIdResponse::from_value)
     }
 
     pub async fn submit_agent_server_csr_by_agent_id(
         &self,
-        agent_id: impl Into<ParamValue>,
-        body: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
-        let body = body.into();
+        request: crate::dto::ans::request::SubmitAgentServerCsrByAgentIdRequest,
+    ) -> ApiResult<crate::dto::ans::response::SubmitAgentServerCsrByAgentIdResponse> {
+        let agent_id = request.agent_id;
+        let body = request.body;
         self.inner
             .call(
                 "POST",
@@ -189,15 +212,15 @@ impl AnsService {
                 Some(body),
             )
             .await
+            .map(crate::dto::ans::response::SubmitAgentServerCsrByAgentIdResponse::from_value)
     }
 
     pub async fn get_agent_csr_status_by_agent_id(
         &self,
-        agent_id: impl Into<ParamValue>,
-        csr_id: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let agent_id = agent_id.into();
-        let csr_id = csr_id.into();
+        request: crate::dto::ans::request::GetAgentCsrStatusByAgentIdRequest,
+    ) -> ApiResult<crate::dto::ans::response::GetAgentCsrStatusByAgentIdResponse> {
+        let agent_id = request.agent_id;
+        let csr_id = request.csr_id;
         self.inner
             .call(
                 "GET",
@@ -208,15 +231,17 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::GetAgentCsrStatusByAgentIdResponse::from_value)
     }
 
     pub async fn get_agent_events(
         &self,
-        x_request_id: Option<ParamValue>,
-        provider_id: Option<ParamValue>,
-        last_log_id: Option<ParamValue>,
-        limit: Option<ParamValue>,
-    ) -> ApiResult<Value> {
+        request: crate::dto::ans::request::GetAgentEventsRequest,
+    ) -> ApiResult<crate::dto::ans::response::GetAgentEventsResponse> {
+        let x_request_id = request.x_request_id;
+        let provider_id = request.provider_id;
+        let last_log_id = request.last_log_id;
+        let limit = request.limit;
         self.inner
             .call(
                 "GET",
@@ -231,5 +256,6 @@ impl AnsService {
                 None,
             )
             .await
+            .map(crate::dto::ans::response::GetAgentEventsResponse::from_value)
     }
 }

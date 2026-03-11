@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,15 +21,15 @@ impl AftermarketService {
 
     pub async fn get_listings(
         &self,
-        customer_id: impl Into<ParamValue>,
-        domains: Option<ParamValue>,
-        listing_status: Option<ParamValue>,
-        transfer_before: Option<ParamValue>,
-        transfer_after: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let customer_id = customer_id.into();
+        request: crate::dto::aftermarket::request::GetListingsRequest,
+    ) -> ApiResult<crate::dto::aftermarket::response::GetListingsResponse> {
+        let customer_id = request.customer_id;
+        let domains = request.domains;
+        let listing_status = request.listing_status;
+        let transfer_before = request.transfer_before;
+        let transfer_after = request.transfer_after;
+        let limit = request.limit;
+        let offset = request.offset;
         self.inner
             .call(
                 "GET",
@@ -49,10 +47,14 @@ impl AftermarketService {
                 None,
             )
             .await
+            .map(crate::dto::aftermarket::response::GetListingsResponse::from_value)
     }
 
-    pub async fn delete_listings(&self, domains: impl Into<ParamValue>) -> ApiResult<Value> {
-        let domains = domains.into();
+    pub async fn delete_listings(
+        &self,
+        request: crate::dto::aftermarket::request::DeleteListingsRequest,
+    ) -> ApiResult<crate::dto::aftermarket::response::DeleteListingsResponse> {
+        let domains = request.domains;
         self.inner
             .call(
                 "DELETE",
@@ -63,13 +65,14 @@ impl AftermarketService {
                 None,
             )
             .await
+            .map(crate::dto::aftermarket::response::DeleteListingsResponse::from_value)
     }
 
     pub async fn add_expiry_listings(
         &self,
-        expiry_listings: impl Into<ParamValue>,
-    ) -> ApiResult<Value> {
-        let expiry_listings = expiry_listings.into();
+        request: crate::dto::aftermarket::request::AddExpiryListingsRequest,
+    ) -> ApiResult<crate::dto::aftermarket::response::AddExpiryListingsResponse> {
+        let expiry_listings = request.expiry_listings;
         self.inner
             .call(
                 "POST",
@@ -80,5 +83,6 @@ impl AftermarketService {
                 Some(expiry_listings),
             )
             .await
+            .map(crate::dto::aftermarket::response::AddExpiryListingsResponse::from_value)
     }
 }

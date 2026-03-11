@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,14 +21,14 @@ impl ParkingService {
 
     pub async fn get_metrics(
         &self,
-        customer_id: impl Into<ParamValue>,
-        period_start_ptz: Option<ParamValue>,
-        period_end_ptz: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-        x_request_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let customer_id = customer_id.into();
+        request: crate::dto::parking::request::GetMetricsRequest,
+    ) -> ApiResult<crate::dto::parking::response::GetMetricsResponse> {
+        let customer_id = request.customer_id;
+        let period_start_ptz = request.period_start_ptz;
+        let period_end_ptz = request.period_end_ptz;
+        let limit = request.limit;
+        let offset = request.offset;
+        let x_request_id = request.x_request_id;
         self.inner
             .call(
                 "GET",
@@ -46,23 +44,22 @@ impl ParkingService {
                 None,
             )
             .await
+            .map(crate::dto::parking::response::GetMetricsResponse::from_value)
     }
 
     pub async fn get_metrics_by_domain(
         &self,
-        customer_id: impl Into<ParamValue>,
-        start_date: impl Into<ParamValue>,
-        end_date: impl Into<ParamValue>,
-        domains: Option<ParamValue>,
-        domain_like: Option<ParamValue>,
-        portfolio_id: Option<ParamValue>,
-        limit: Option<ParamValue>,
-        offset: Option<ParamValue>,
-        x_request_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let customer_id = customer_id.into();
-        let start_date = start_date.into();
-        let end_date = end_date.into();
+        request: crate::dto::parking::request::GetMetricsByDomainRequest,
+    ) -> ApiResult<crate::dto::parking::response::GetMetricsByDomainResponse> {
+        let customer_id = request.customer_id;
+        let start_date = request.start_date;
+        let end_date = request.end_date;
+        let domains = request.domains;
+        let domain_like = request.domain_like;
+        let portfolio_id = request.portfolio_id;
+        let limit = request.limit;
+        let offset = request.offset;
+        let x_request_id = request.x_request_id;
         self.inner
             .call(
                 "GET",
@@ -81,5 +78,6 @@ impl ParkingService {
                 None,
             )
             .await
+            .map(crate::dto::parking::response::GetMetricsByDomainResponse::from_value)
     }
 }

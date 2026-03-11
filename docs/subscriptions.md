@@ -1,71 +1,152 @@
-# SubscriptionsService
+# Subscriptions Service
 
-Subscription listing and management endpoints for recurring products.
+Client accessor: `client.subscriptions()`
 
-## Accessor
+## Method Index
 
-```rust
-let service = client.subscriptions();
-```
+- [`list`](#list): `ListResponse`
+- [`product_groups`](#product_groups): `ProductGroupsResponse`
+- [`cancel`](#cancel): `CancelResponse`
+- [`get`](#get): `GetResponse`
+- [`update`](#update): `UpdateResponse`
 
-## Endpoints
+## Methods
 
 ### list
 
-Calls `GET /v1/subscriptions`.
+Returns: `ListResponse`
+
+Request code:
 
 ```rust
-let response = client.subscriptions().list("header-value".into(), Some("header-value".into()), Some("header-value".into()), Some(vec!["sample"].into()), Some(vec!["sample"].into()), Some(1_i64.into()), Some(1_i64.into()), Some("sample".into())).await?;
+use godaddy_rust::dto::subscriptions::request::ListRequest;
+
+let request = ListRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.subscriptions().list(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "subscriptions": [
+    {
+      "subscriptionId": "sub_123456",
+      "status": "ACTIVE",
+      "renewAuto": true
+    }
+  ],
+  "pagination": {
+    "total": 1,
+    "next": null
+  }
+}
 ```
 
 ### product_groups
 
-Calls `GET /v1/subscriptions/productGroups`.
+Returns: `ProductGroupsResponse`
+
+Request code:
 
 ```rust
-let response = client.subscriptions().product_groups("header-value".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::subscriptions::request::ProductGroupsRequest;
+
+let request = ProductGroupsRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.subscriptions().product_groups(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "productGroups": [
+    {
+      "productGroupKey": "domains",
+      "subscriptionCount": 1
+    }
+  ]
+}
 ```
 
 ### cancel
 
-Calls `DELETE /v1/subscriptions/{subscriptionId}`.
+Returns: `CancelResponse`
+
+Request code:
 
 ```rust
-let response = client.subscriptions().cancel(json!({"sample": true}).into(), "header-value".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::subscriptions::request::CancelRequest;
+
+let request = CancelRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.subscriptions().cancel(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "subscriptionId": "sub_123456",
+  "status": "CANCELLED"
+}
 ```
 
 ### get
 
-Calls `GET /v1/subscriptions/{subscriptionId}`.
+Returns: `GetResponse`
+
+Request code:
 
 ```rust
-let response = client.subscriptions().get(json!({"sample": true}).into(), "header-value".into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::subscriptions::request::GetRequest;
+
+let request = GetRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.subscriptions().get(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "subscriptionId": "sub_123456",
+  "status": "ACTIVE",
+  "label": "My Subscription",
+  "renewAuto": true
+}
 ```
 
 ### update
 
-Calls `PATCH /v1/subscriptions/{subscriptionId}`.
+Returns: `UpdateResponse`
+
+Request code:
 
 ```rust
-let response = client.subscriptions().update(json!({"sample": true}).into(), "header-value".into(), json!({"sample": true}).into(), Some("header-value".into())).await?;
+use godaddy_rust::dto::subscriptions::request::UpdateRequest;
+
+let request = UpdateRequest::new(
+    // Fill endpoint fields here
+);
+let response = client.subscriptions().update(request).await?;
 ```
 
+Response JSON example:
+
 ```json
-{}
+{
+  "subscriptionId": "sub_123456",
+  "status": "ACTIVE"
+}
 ```
+
+## Exceptions
+
+Service-specific exceptions are exposed under `godaddy_rust::error` for subscriptions endpoints.

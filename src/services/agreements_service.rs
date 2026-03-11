@@ -1,8 +1,6 @@
 use std::sync::Arc;
 
-use serde_json::Value;
-
-use crate::api_client::{ApiClient, ParamValue};
+use crate::api_client::ApiClient;
 use crate::error::ApiResult;
 
 use super::abstract_service::AbstractService;
@@ -23,11 +21,11 @@ impl AgreementsService {
 
     pub async fn get(
         &self,
-        keys: impl Into<ParamValue>,
-        x_private_label_id: Option<ParamValue>,
-        x_market_id: Option<ParamValue>,
-    ) -> ApiResult<Value> {
-        let keys = keys.into();
+        request: crate::dto::agreements::request::GetRequest,
+    ) -> ApiResult<crate::dto::agreements::response::GetResponse> {
+        let keys = request.keys;
+        let x_private_label_id = request.x_private_label_id;
+        let x_market_id = request.x_market_id;
         self.inner
             .call(
                 "GET",
@@ -41,5 +39,6 @@ impl AgreementsService {
                 None,
             )
             .await
+            .map(crate::dto::agreements::response::GetResponse::from_value)
     }
 }
